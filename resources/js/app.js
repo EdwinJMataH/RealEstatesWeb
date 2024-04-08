@@ -1,12 +1,15 @@
 import './bootstrap';
 import '../css/app.css';
 import Lara from '../css/presets/lara';
+import 'primeicons/primeicons.css'
 
 import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import PrimeVue from 'primevue/config';
+import Ripple from 'primevue/ripple';
+import StyleClass from 'primevue/styleclass';
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 
@@ -18,9 +21,12 @@ createInertiaApp({
             .use(plugin)
             .use(PrimeVue, {
                 unstyled: true,
-                pt: Lara  
+                pt: Lara,
+                ripple: true
             })
             .use(ZiggyVue, Ziggy)
+            .directive('ripple', Ripple)
+            .directive('styleclass', StyleClass)
             .mount(el);
     },
     // progress: {

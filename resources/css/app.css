@@ -12,6 +12,12 @@
     @tailwind utilities;
 } */
 
+@layer utilities {
+    .container-custom {
+        @apply container mx-auto py-2;
+    }
+}
+
 :root {
     --primary-50: 236 253 245;
     --primary-100: 209 250 229;

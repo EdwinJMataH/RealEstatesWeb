@@ -16,6 +16,12 @@
     .container-custom {
         @apply container mx-auto py-2;
     }
+    .container-content {
+        @apply max-w-7xl mx-auto px-4 md:px-8 py-2;
+    }
+    .button-table {
+        @apply p-2 cursor-pointer rounded-full border;
+    }
 }
 
 :root {

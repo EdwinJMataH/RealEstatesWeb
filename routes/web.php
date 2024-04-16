@@ -26,6 +26,7 @@ Route::group([
 ], function () {
     require base_path('app/Core/Modules/Dashboard/DashboardRoutes.php');
     require base_path('app/Core/Modules/Profile/ProfileRoutes.php');
+    require base_path('app/Core/Modules/ProfilesUsers/ProfilesUsersRoutes.php');
     // Route::get('/dashboard', function () {
     //     return Inertia::render('Dashboard');
     // })->name('dashboard');

@@ -141,7 +141,7 @@ export default {
         content: {
             class: [
                 // Spacing
-                'p-5',
+                'py-5',
 
                 // Shape
                 'rounded-b-md',

@@ -11,6 +11,6 @@ class DashboardController extends Controller
         return Inertia::render('Dashboard');
     }
     public function slider() {
-        return Inertia::render('Prueba');
+        return Inertia::render('Dashboard');
     }
 }

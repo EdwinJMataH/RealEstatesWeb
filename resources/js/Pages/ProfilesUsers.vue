@@ -2,8 +2,9 @@
 import { Head } from '@inertiajs/vue3';
 import { ref } from "vue";
 import AuthLayout from '@/Layouts/AuthLayout.vue';
+import { TabProfilesUsers } from '@/Pages/ProfilesUsers/Partials';
 
-let title = ref('Dashboard');
+let title = ref('Perfiles y Usuarios');
 
 </script>
 
@@ -13,9 +14,11 @@ let title = ref('Dashboard');
     <AuthLayout>
         <template #title>{{ title }}</template>
 
-        <template #content>
-            ESTE ES EL Dashboard
 
+
+        <template #content>
+            <TabProfilesUsers>
+            </TabProfilesUsers>
         </template>
 
     </AuthLayout>

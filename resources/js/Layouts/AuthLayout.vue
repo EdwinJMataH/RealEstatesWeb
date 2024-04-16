@@ -65,6 +65,11 @@ const items2 = ref([
         route: 'profile'
     },
     {
+        label: 'Perfiles y Usuarios',
+        icon: 'pi pi-users',
+        route: 'profiles_users'
+    },
+    {
         label: 'Sign Out',
         icon: 'pi pi-sign-out',
         route: 'dashboard'
@@ -74,8 +79,10 @@ const menu = ref(null);
 </script>
 
 <template>
+    <div class="flex flex-col h-screen">
+
     <header class="container-custom">
-        <Menubar :model="items" class="w-full border-0 bg-white">
+        <Menubar :model="items" class="container-content border-0 bg-white">
             <template #start >
                 <div class="pr-8">
                     <Link :href="route('dashboard')">
@@ -106,7 +113,7 @@ const menu = ref(null);
                     <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png" shape="circle" @click="toggle" class="cursor-pointer"/>
                     <Menu :model="items2" ref="menu" popup>
                         <template #item="{ item, props }">
-                            <Link v-ripple :href="item.route" :target="item.target" v-bind="props.action">
+                            <Link v-ripple :href="route(item.route)" :target="item.target" v-bind="props.action">
                                 <span :class="item.icon" />
                                 <span class="ml-2">{{ item.label }}</span>
                             </Link>
@@ -117,18 +124,26 @@ const menu = ref(null);
         </Menubar>
     </header>
 
-    <div class="border-b-slate-200 border-y max-w-7xl mx-auto px-4 md:px-8">
-        <div class="container-custom">
+    <div class="border-b-slate-200 border-y container-custom">
+        <div class="container-content">
             <h1 class="font-semibold text-xl text-gray-800 leading-tight py-4 ">
                 <slot name="title"></slot>
             </h1>
         </div>
     </div>
 
-    <main class="py-10 bg-slate-100">
+    <main class="py-10 bg-slate-100 flex-grow">
         <div class="container-custom space-y-16">
             <slot name="content"></slot>
         </div>
     </main>
+
+    <footer class="py-4 border-b-slate-200 border-t">
+        <div class="flex flex-col md:flex-row justify-center gap-1 content-center">
+            <p class="text-center">Copyright © 2024</p>
+            <p class="text-center">All right reserved by HOLA</p>
+        </div>
+    </footer>
+</div>
 
 </template>

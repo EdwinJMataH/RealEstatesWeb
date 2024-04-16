@@ -116,7 +116,7 @@ export default {
                 'border-0 border-b border-solid',
 
                 // Spacing
-                context?.size === 'small' ? 'p-2' : context?.size === 'large' ? 'p-5' : 'p-4',
+                context?.size === 'small' ? 'p-2' : context?.size === 'large' ? 'p-2' : 'p-2',
 
                 // Color
                 (props.sortable === '' || props.sortable) && context.sorted ? 'bg-primary-50 text-primary-700' : 'bg-surface-50 text-surface-700',
@@ -159,8 +159,8 @@ export default {
 
                 // Spacing
                 { 'p-2': context?.size === 'small' && !state['d_editing'] },
-                { 'p-5': context?.size === 'large' && !state['d_editing'] },
-                { 'p-4': context?.size !== 'large' && context?.size !== 'small' && !state['d_editing'] },
+                { 'p-2': context?.size === 'large' && !state['d_editing'] },
+                { 'p-2': context?.size !== 'large' && context?.size !== 'small' && !state['d_editing'] },
                 { 'py-[0.6rem] px-2': state['d_editing'] },
 
                 // Color

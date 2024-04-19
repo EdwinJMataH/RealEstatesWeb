@@ -17,8 +17,8 @@ const columns =  [
         header: 'Descripción'
     },
     {
-        field:  'Fecha de Modificación',
-        header: 'image'
+        field:  'updated_at',
+        header: 'Fecha de modificación'
     },
     
 ];

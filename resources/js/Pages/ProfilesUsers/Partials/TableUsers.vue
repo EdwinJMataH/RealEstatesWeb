@@ -1,53 +1,59 @@
 <script setup>
-import Table from '@/Components/Table.vue';
-const columns =  [
+import { ref } from "vue";
+import Table from "@/Components/Table.vue";
+import DialogNewUser from "./DialogNewUser.vue";
+
+let is_dialog_new_user = ref(false);
+const columns = [
     {
-        field:  'email',
-        header: 'Correo electrónico',
+        field: "email",
+        header: "Correo electrónico",
     },
     {
-        field:  'name',
-        header: 'Nombre'
+        field: "name",
+        header: "Nombre",
     },
     {
-        field:  'type',
-        header: 'Tipo'
+        field: "type",
+        header: "Tipo",
     },
     {
-        field:  'status',
-        header: 'Estatus de cuenta'
+        field: "status",
+        header: "Estatus de cuenta",
     },
     {
-        field:  'invitation_date',
-        header: 'Fecha de Invitación'
+        field: "invitation_date",
+        header: "Fecha de Invitación",
     },
-    
 ];
 
 const editProduct = (prod) => {
     console.log(prod);
 };
-const confirmDeleteProduct = (prod) => {
-};
-const actions =  [
+const confirmDeleteProduct = (prod) => {};
+
+const actions = [
     {
-        icon:  'pi pi-pencil',
-        color: 'green',
-        callback: editProduct
+        icon: "pi pi-pencil",
+        color: "green",
+        callback: editProduct,
     },
     {
-        icon:  'pi pi-trash',
-        color: 'red',
-        callback: confirmDeleteProduct
+        icon: "pi pi-trash",
+        color: "red",
+        callback: confirmDeleteProduct,
     },
-    
 ];
-
-
-
 </script>
 
-
 <template>
-    <Table :columns="columns" :actions="actions"/>
+    <DialogNewUser
+        :is_dialog_visible="is_dialog_new_user"
+        @close:dialog="is_dialog_new_user = false"
+    />
+    <Table
+        :columns="columns"
+        :actions="actions"
+        @open:dialog-new="is_dialog_new_user = true"
+    />
 </template>

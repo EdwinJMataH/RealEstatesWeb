@@ -8,11 +8,11 @@ const items = ref([
         icon: 'pi pi-users',
         component: TableUsers
     },
-    {
-        label: 'Perfiles',
-        icon: 'pi pi-user',
-        component: TableProfiles,
-    }
+    // {
+    //     label: 'Perfiles',
+    //     icon: 'pi pi-user',
+    //     component: TableProfiles,
+    // }
 
 ]);
 

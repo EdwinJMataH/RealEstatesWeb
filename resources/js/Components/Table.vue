@@ -21,6 +21,10 @@ const props = defineProps({
         type: Boolean,
         default: true,
     },
+    data:{
+        type: Array,
+        default: []
+    }
 });
 
 onMounted(() => {
@@ -183,7 +187,7 @@ const getStatusLabel = (status) => {
     </Toolbar>
     <DataTable
         ref="dt"
-        :value="products"
+        :value="props.data"
         v-model:selection="selectedProducts"
         removableSort
         scrollable

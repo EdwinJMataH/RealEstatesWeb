@@ -65,9 +65,9 @@ const items2 = ref([
         route: 'profile'
     },
     {
-        label: 'Perfiles y usuarios',
+        label: 'Usuarios',
         icon: 'pi pi-users',
-        route: 'profiles_users'
+        route: 'users.index'
     },
     {
         label: 'Sign Out',

@@ -2,17 +2,25 @@
 import { defineProps, defineEmits } from "vue";
 import { modalDimensions } from "@/helpers.js";
 
-const emits = defineEmits(["update:is_dialog_visible"]);
+const emits = defineEmits(["update:is_dialog_visible", "submit"]);
 
 const props = defineProps({
     is_dialog_visible: {
         type: Boolean,
         default: false,
     },
+    is_disabled: {
+        type: Boolean,
+        default: true,
+    },
 });
 
 const hideDialog = () => {
     emits("update:is_dialog_visible", false);
+};
+
+const submit = (val) => {
+    emits("submit", val);
 };
 
 
@@ -28,7 +36,7 @@ const hideDialog = () => {
             :style="modalDimensions"
         >
 
-            <form action="" method="POST">
+            <form @submit.prevent="submit">
                 <div class="flex w-full gap-4 flex-col">
                     <slot name="form"></slot>
 
@@ -42,7 +50,7 @@ const hideDialog = () => {
                         severity="secondary"
                         @click="hideDialog"
                     ></Button>
-                    <Button type="button" label="Guardar" @click="false"></Button>
+                    <Button type="submit" label="Guardar" @click="false" :disabled="props.is_disabled" ></Button>
                 </div>
             </form>
         </Dialog>

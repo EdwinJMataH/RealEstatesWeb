@@ -1,11 +1,14 @@
 import { ref } from "vue";
+import { useForm } from '@inertiajs/vue3'
+import { getResponse } from "@/helpers.js";
+
 export default function useUser() {
     const permissions = ref([
-        { label: "Administrador", value: "Administrador" },
-        { label: "Colaborador", value: "Colaborador" },
+        { label: "Administrador", value: "Administrator" },
+        { label: "Colaborador", value: "Collaborator" },
     ]);
     const profiles = ref([
-        { label: 'Creador', value: 'Creador'},
+        { label: 'Creador', value: 'Creator'},
         { label: 'Editor', value: 'Editor'},
     ]);
     const types_permits = ref({
@@ -32,6 +35,8 @@ export default function useUser() {
     });
     const show_profiles = ref(false);
     const show_icon = ref(false);
+    const disabled = ref(false);
+    let users = ref([]);
     const init_model = () => {
         return {
             email: "",
@@ -50,14 +55,75 @@ export default function useUser() {
         model.value = { ...value };
     };
 
+    const all = async (functionCallback = ()=>{}) => {
+        let severity = '';
+        let detail   = '';
+        let status   = '';
+        let data     = [];
+        try {
+            const response = await axios.get(route('users.all'));
+            ({ severity, detail, status, data } = getResponse(response.data));
+
+            if (data) {
+
+                users.value = data.map(element => {
+                    const { email, id, name, permission, profile} = element;
+                    return {
+                        email,
+                        id,
+                        name,
+                        permission,
+                        profile,
+                        action: [0, 1]
+                    }
+                });
+            }
+
+
+        } catch (error) {
+            ({ severity, detail, status } = getResponse({ status: false }));
+
+        } finally {
+            functionCallback({
+                severity: severity,
+                detail: detail,
+                status: status
+            });
+        }
+    }
+
+    const store = async (functionCallback = ()=>{}) => {
+        let severity = '';
+        let detail   = '';
+        let status   = '';
+        try {
+            const response = await axios.post(route('users.store'), {...model.value});
+            ({ severity, detail, status } = getResponse(response.data));
+
+        } catch (error) {
+            ({ severity, detail, status } = getResponse({ status: false }));
+
+        } finally {
+            functionCallback({
+                severity: severity,
+                detail: detail,
+                status: status
+            });
+        }
+    }
+
     return {
         permissions, 
         profiles,
         types_permits,
         show_profiles,
         show_icon,
+        disabled,
         model, 
         clearModel, 
-        setValueModel
+        setValueModel,
+        all,
+        users,
+        store
     };
 }

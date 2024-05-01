@@ -1,7 +1,9 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import Table from "@/Components/Table.vue";
 import DialogNewUser from "./DialogNewUser.vue";
+import useUser from "@/Composables/useUser.js";
+const { all, users } = useUser();
 
 let is_dialog_new_user = ref(false);
 const columns = [
@@ -14,17 +16,21 @@ const columns = [
         header: "Nombre",
     },
     {
-        field: "type",
-        header: "Tipo",
+        field: "profile",
+        header: "Tipo de perfil",
     },
     {
-        field: "status",
-        header: "Estatus de cuenta",
+        field: "permission",
+        header: "Tipo de permiso",
     },
-    {
-        field: "invitation_date",
-        header: "Fecha de Invitación",
-    },
+    // {
+    //     field: "status",
+    //     header: "Estatus de cuenta",
+    // },
+    // {
+    //     field: "invitation_date",
+    //     header: "Fecha de Invitación",
+    // },
 ];
 
 const editProduct = (prod) => {
@@ -44,6 +50,9 @@ const actions = [
         callback: confirmDeleteProduct,
     },
 ];
+onMounted(() => {
+    all();
+});
 </script>
 
 <template>
@@ -52,6 +61,7 @@ const actions = [
         @close:dialog="is_dialog_new_user = false"
     />
     <Table
+        :data="users"
         :columns="columns"
         :actions="actions"
         @open:dialog-new="is_dialog_new_user = true"

@@ -16,12 +16,43 @@ const modalDimensions = {
 }
 
 const validateEmail = (email) => {
-    var re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-    return re.test(String(email).toLowerCase());
+    let regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    // return regex.test(String(email).toLowerCase());
+    return {
+        status: regex.test(String(email).toLowerCase()),
+        alert: { severity: 'error', detail: messages['error-email'] },
+    }
 }
 
 const isEmpty = (value) => {
     return value == null || value.length === 0;
+}
+
+function getModulesMenu(module){
+
+    let modules = {
+        profile: {
+            label: 'Pefil',
+            icon: 'pi pi-user',
+            route: 'profile.edit',
+            orderBy: 1
+        },
+        users: {
+            label: 'Usuarios',
+            icon: 'pi pi-users',
+            route: 'users.index',
+            orderBy: 2
+        },
+        dashboard: {
+            label: 'Sign Out',
+            icon: 'pi pi-sign-out',
+            route: 'dashboard',
+            orderBy: 3
+        }
+    }
+    if (module) {
+        return modules[module];
+    }
 }
 
 
@@ -53,6 +84,13 @@ const getResponse = (response) => {
     return { severity, detail, status, data }
 }
 
+const validateFormIsEmpty = (object) => {
+    return {
+        status: !Object.keys(object).some(element => isEmpty(object[element])),
+        alert: { severity: 'warn', detail: messages['form-empty']},
+    }
+};
+
 
 
 
@@ -64,5 +102,7 @@ export {
     validateEmail,
     isEmpty,
     getResponse,
-    messages
+    messages,
+    getModulesMenu,
+    validateFormIsEmpty
 };

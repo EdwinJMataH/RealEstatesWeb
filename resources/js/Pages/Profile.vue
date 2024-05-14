@@ -1,7 +1,7 @@
 <script setup>
 import { Head } from '@inertiajs/vue3';
 import { ref } from "vue";
-import AuthLayout from '@/Layouts/AuthLayout.vue';
+import DashboardLayout from '@/Layouts/DashboardLayout.vue';
 import { UpdatePassword, UpdatePicture, UpdateProfile } from '@/Pages/Profiles/Partials';
 
 let title = ref('Perfil');
@@ -11,7 +11,7 @@ let title = ref('Perfil');
 <template>
     <Head :title="title"/>
 
-    <AuthLayout>
+    <DashboardLayout>
         <template #title>{{ title }}</template>
 
         <template #content>
@@ -22,5 +22,5 @@ let title = ref('Perfil');
             <UpdatePicture></UpdatePicture>
         </template>
 
-    </AuthLayout>
+    </DashboardLayout>
 </template>

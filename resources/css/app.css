@@ -12,6 +12,13 @@
     @tailwind utilities;
 } */
 
+@layer base {
+    img {
+        @apply object-cover object-center w-full h-full;
+    }
+}
+
+
 @layer utilities {
     .container-custom {
         @apply container mx-auto py-2;

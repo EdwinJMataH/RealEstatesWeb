@@ -1,7 +1,7 @@
 <script setup>
 import { Head } from '@inertiajs/vue3';
 import { ref } from "vue";
-import AuthLayout from '@/Layouts/AuthLayout.vue';
+import DashboardLayout from '@/Layouts/DashboardLayout.vue';
 // import { TabProfilesUsers } from '@/Pages/ProfilesUsers/Partials';
 import UserIndex from '@/Pages/ProfilesUsers/UserIndex.vue';
 
@@ -12,12 +12,12 @@ let title = ref('Usuarios');
 <template>
     <Head :title="title"/>
 
-    <AuthLayout>
+    <DashboardLayout>
         <template #title>{{ title }}</template>
 
         <template #content>
             <UserIndex/>
         </template>
 
-    </AuthLayout>
+    </DashboardLayout>
 </template>

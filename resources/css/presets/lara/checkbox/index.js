@@ -24,8 +24,8 @@ export default {
             'justify-center',
 
             // Size
-            'w-6',
-            'h-6',
+            'w-5',
+            'h-5',
 
             // Shape
             'rounded-md',

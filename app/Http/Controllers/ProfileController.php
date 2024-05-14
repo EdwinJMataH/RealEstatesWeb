@@ -10,12 +10,21 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Core\Modules\Profile\UseCases\ProfileIndex;
 
 class ProfileController extends Controller
 {
-    public function index() {
+
+    public function all() {
+        $response = ProfileIndex::index();
+        return response()->json($response);
+    }
+
+    public function edit() {
         return Inertia::render('Profile');
     }
+
+
 
     /**
      * Display the user's profile form.

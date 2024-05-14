@@ -1,7 +1,7 @@
 <script setup>
 import { Head } from '@inertiajs/vue3';
 import { ref } from "vue";
-import AuthLayout from '@/Layouts/AuthLayout.vue';
+import DashboardLayout from '@/Layouts/DashboardLayout.vue';
 
 let title = ref('Dashboard');
 
@@ -10,7 +10,7 @@ let title = ref('Dashboard');
 <template>
     <Head :title="title"/>
 
-    <AuthLayout>
+    <DashboardLayout>
         <template #title>{{ title }}</template>
 
         <template #content>
@@ -18,5 +18,5 @@ let title = ref('Dashboard');
 
         </template>
 
-    </AuthLayout>
+    </DashboardLayout>
 </template>

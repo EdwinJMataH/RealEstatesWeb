@@ -12,7 +12,7 @@ const props = defineProps({
 watch(()=> props.alerts, (new_value, old_value) => {
     if ((new_value ?? '').length != 0) {
         new_value.forEach((item, index) => {
-            toast.add({ severity: item.severity, summary: 'Mensaje', detail: item.detail, life: 3000 + index * 5 });
+            toast.add({ severity: item.severity, summary: 'Mensaje', detail: item.detail, life: 4000 + index * 5 });
         });
     }
 });

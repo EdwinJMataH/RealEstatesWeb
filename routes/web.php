@@ -1,5 +1,6 @@
 <?php
 
+use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,10 +29,16 @@ Route::group([
     require base_path('app/Core/Modules/Profile/ProfileRoutes.php');
     // require base_path('app/Core/Modules/ProfilesUsers/ProfilesUsersRoutes.php');
     require base_path('app/Core/Modules/User/UserRoutes.php');
+    require base_path('app/Core/Modules/Estate/EstateRoutes.php');
+    require base_path('app/Core/Modules/Module/ModuleRoutes.php');
     // Route::get('/dashboard', function () {
     //     return Inertia::render('Dashboard');
     // })->name('dashboard');
 });
+Route::get('/a', function () {
+    return Inertia::render('Auth/Login');
+});
+
 // Route::get('/', function () {
 //     return Inertia::render('Welcome', [
 //         'canLogin' => Route::has('login'),

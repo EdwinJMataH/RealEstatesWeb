@@ -7,6 +7,7 @@ return [
         'form-empty'       => 'Se han encontrado campos vacíos en el formulario. Por favor, llenarlos.',
         'uuid-not-found'   => 'Ha ocurrido un problema al consultar la información solicitada.',
         'login-success'    => 'Credenciales de acceso correctas. ¡Bienvenido!',
+        'logout-success'   => 'La sesión ha expirado. ¡Adiós!',
         'get-success'      => 'Se ha obtenido la información correctamente.',
         'update-success'   => 'Se ha realizado la actualización correctamente.',
         'register-success' => 'Se ha realizado el registro correctamente.',

@@ -12,8 +12,19 @@ import Ripple from 'primevue/ripple';
 import Toast from 'primevue/toast';
 import ToastService from 'primevue/toastservice';
 import StyleClass from 'primevue/styleclass';
+import { router } from '@inertiajs/vue3'
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
+
+axios.interceptors.response.use(
+    response => response,
+    error => {
+        if (error.response.status === 401) {
+            router.get(route('login'));
+        }
+        return Promise.reject(error);
+    }
+);
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,

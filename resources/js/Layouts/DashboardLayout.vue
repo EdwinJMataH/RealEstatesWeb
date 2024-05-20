@@ -1,10 +1,14 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { Link } from "@inertiajs/vue3";
+import Alert from "@/Components/Alert.vue";
+import useStoreAuth from "@/Composables/useStoreAuth.js";
 import useStoreModule from "@/Composables/useStoreModule.js";
+import { router } from '@inertiajs/vue3'
+const { logout } = useStoreAuth();
 const { index, itemsMenu } = useStoreModule();
 
-const toggle = (event) => menu.value.toggle(event);
+// V A R I A B L E S
 const items = ref([
     {
         label: 'Home',
@@ -60,24 +64,25 @@ const items = ref([
         badge: 3
     }
 ]);
-// const items2 = ref([
-//     {
-//         label: 'Profile',
-//         icon: 'pi pi-user',
-//         route: 'profile'
-//     },
-//     {
-//         label: 'Usuarios',
-//         icon: 'pi pi-users',
-//         route: 'users.index'
-//     },
-//     {
-//         label: 'Sign Out',
-//         icon: 'pi pi-sign-out',
-//         route: 'dashboard'
-//     }
-// ]);
-const menu = ref(null);
+
+const menu   = ref(null);
+const alerts = ref([]);
+
+// F U N C T I O N S
+const toggle = (event) => menu.value.toggle(event);
+
+const logoutEvnt = async () => {
+    await logout((response) => {
+        const { severity, detail, status } = response;
+        alerts.value = [];
+        alerts.value.push({ severity: severity, detail: detail })
+        if (status) {
+            setTimeout(() => {
+                router.get(route('login'));
+            }, 2000);
+        }
+    });
+}
 
 onMounted(() => {
     index();
@@ -85,6 +90,7 @@ onMounted(() => {
 </script>
 
 <template>
+    <Alert :alerts="alerts" />
     <div class="flex flex-col h-screen">
 
     <header class="container-custom">
@@ -119,10 +125,14 @@ onMounted(() => {
                     <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png" shape="circle" @click="toggle" class="cursor-pointer"/>
                     <Menu :model="itemsMenu" ref="menu" popup>
                         <template #item="{ item, props }">
-                            <Link v-ripple :href="route(item.route)" :target="item.target" v-bind="props.action">
+                            <Link v-if="item.route" v-ripple :href="route(item.route)" :target="item.target" v-bind="props.action">
                                 <span :class="item.icon" />
                                 <span class="ml-2">{{ item.label }}</span>
                             </Link>
+                            <a v-else v-ripple :target="item.target" v-bind="props.action" @click="logoutEvnt">
+                                <span :class="item.icon" />
+                                <span class="ml-2">{{ item.label }}</span>
+                            </a>
                         </template>
                     </Menu>
                 </div>

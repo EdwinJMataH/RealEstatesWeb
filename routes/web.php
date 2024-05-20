@@ -35,9 +35,9 @@ Route::group([
     //     return Inertia::render('Dashboard');
     // })->name('dashboard');
 });
-Route::get('/a', function () {
-    return Inertia::render('Auth/Login');
-});
+// Route::get('/a', function () {
+//     return Inertia::render('Auth/Login');
+// });
 
 // Route::get('/', function () {
 //     return Inertia::render('Welcome', [

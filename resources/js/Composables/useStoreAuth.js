@@ -58,6 +58,23 @@ export default function useStoreAuth() {
         }
     }
 
+    const logout = async (functionCallback = ()=>{}) => {
+        try {
+            const response = await axios.post(route('logout'));
+            ({ severity, detail, status } = getResponse(response.data));
+
+        } catch (error) {
+            ({ severity, detail, status } = getResponse(error.response.data));
+
+        } finally {
+            functionCallback({
+                severity: severity,
+                detail: detail,
+                status: status
+            });
+        }
+    }
+
 
     return {
         invalid,
@@ -66,6 +83,7 @@ export default function useStoreAuth() {
         model,
         clearModel,
         setValueModel,
-        login
+        login,
+        logout
     };
 }

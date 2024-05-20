@@ -46,7 +46,6 @@ function getModulesMenu(module){
         dashboard: {
             label: 'Sign Out',
             icon: 'pi pi-sign-out',
-            route: 'dashboard',
             orderBy: 3
         }
     }

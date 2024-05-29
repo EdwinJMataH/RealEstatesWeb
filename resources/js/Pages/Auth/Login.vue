@@ -88,7 +88,7 @@ const submit = async (val) => {
                 </template>
                 <template #options>
                     <div class="flex flex-col gap-y-4 md:flex-row justify-between items-center">
-                        <Link class="font-light text-sm" v-ripple :href="route('dashboard')">¿No tienes una cuenta?</Link>
+                        <Link class="font-light text-sm" v-ripple :href="route('register')">¿No tienes una cuenta?</Link>
                         <Link class="font-light text-sm" v-ripple :href="route('dashboard')">¿Olvidaste tu contraseña?</Link>
                     </div>
                 </template>

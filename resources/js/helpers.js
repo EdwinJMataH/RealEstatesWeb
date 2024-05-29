@@ -58,6 +58,7 @@ function getModulesMenu(module){
 const messages = {
     'error-email'     : 'El correo electrónico proporcionado, no corresponde a uno válido.',
     'error-phone'     : 'El número de celular proporcionado, no corresponde a uno válido.',
+    'error-passwords' : 'Las contraseñas proporcionadas, no coinciden.',
     'form-empty'      : 'Se han encontrado campos vacíos en el formulario. Por favor, llenarlos.',
     'uuid-not-found'  : 'Ha ocurrido un problema al consultar la información solicitada.',
     'get-success'     : 'Se ha obtenido la información correctamente.',
@@ -90,6 +91,13 @@ const validateFormIsEmpty = (object) => {
     }
 };
 
+const validateSamePasword = (object) => {
+    return {
+        status: object.password == object.password_confirmation,
+        alert: { severity: 'warn', detail: messages['error-passwords']},
+    }
+};
+
 
 
 
@@ -103,5 +111,6 @@ export {
     getResponse,
     messages,
     getModulesMenu,
-    validateFormIsEmpty
+    validateFormIsEmpty,
+    validateSamePasword
 };

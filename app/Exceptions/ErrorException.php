@@ -10,12 +10,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ErrorException extends Exception {
 
-    private $slug;
-    private $error;
-    public function __construct(string $slug = null, string $error = null) {
-        $this->slug  = $slug ?? 'error';
-        $this->error = $error ?? '';
-        parent::__construct(ErrorMessagesRepository::getMessage($slug), 200, null);
+    private   $slug;
+    private   $error;
+    protected $message;
+    private   $defaults = ['slug' => 'error', 'error' => '', 'message' => ''];
+    private   $data     = [];
+    public function __construct(array $exception = []) {
+        $this->data = $exception;
+        $this->getException();
+        $this->setMessage();
+        parent::__construct($this->message, 200, null);
     }
 
     public function render(Request $request) {
@@ -27,6 +31,21 @@ class ErrorException extends Exception {
             'file'    => $this->getFile(),
             'status'  => false
         ], 200); //Para excepciones controlados
+    }
+
+    public function getException() {
+        [
+            'slug'    => $this->slug,
+            'error'   => $this->error,
+            'message' => $this->message
+        ] = array_merge($this->defaults, $this->data);
+    }
+
+    public function setMessage() {
+
+        if (is_null($this->message)) {
+            $this->message = $message ?? ErrorMessagesRepository::getMessage($this->slug);
+        }
     }
 
     public function getSlug() {

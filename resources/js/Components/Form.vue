@@ -1,5 +1,7 @@
 <script setup>
-defineProps({
+import { computed } from "vue";
+
+const props = defineProps({
     title: {
         type: String,
         required: true,
@@ -16,9 +18,15 @@ defineProps({
         type: Boolean,
         default: true
     },
+    is_modal: {
+        type: Boolean,
+        default: false
+    },
 });
 
 const emits = defineEmits(["submit"]);
+
+const sizeWidth = computed(() => !props.is_modal ? 'max-w-7xl' : 'max-w-lg');
 
 
 const submit = (val) => {
@@ -27,8 +35,8 @@ const submit = (val) => {
 </script>
 
 <template>
-    <div class="max-w-7xl mx-auto px-4 lg:px-8">
-        <div class="bg-white rounded-lg p-6 lg:p-8">
+    <div class="mx-auto px-4 lg:px-8 w-full" :class="sizeWidth">
+        <div class="bg-white rounded-lg p-6 lg:p-8 w-full">
             <h2 class="font-medium text-lg text-gray-800 leading-tight">{{ title }}</h2>
             <p class="font-normal text-sm py-2"> {{ description }}</p>
 

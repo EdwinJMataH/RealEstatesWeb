@@ -60,6 +60,7 @@ const submit = async (val) => {
         <template #content>
             <Form
                 :title="'Bienvenido a RealStatesWeb! 🚀'"
+                :is_modal="true"
                 :description="'Asegúrese de que sus datos ingresados sean los correctos.'"
                 :button_title="title"
                 :is_processing="model.processing"
@@ -89,7 +90,7 @@ const submit = async (val) => {
                 <template #options>
                     <div class="flex flex-col gap-y-4 md:flex-row justify-between items-center">
                         <Link class="font-light text-sm" v-ripple :href="route('register')">¿No tienes una cuenta?</Link>
-                        <Link class="font-light text-sm" v-ripple :href="route('dashboard')">¿Olvidaste tu contraseña?</Link>
+                        <Link class="font-light text-sm" v-ripple :href="route('password.request')">¿Olvidaste tu contraseña?</Link>
                     </div>
                 </template>
                 <template #remember>

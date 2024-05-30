@@ -59,6 +59,7 @@ const submit = async (val) => {
         <template #content>
             <Form
                 :title="'Crear una cuenta'"
+                :is_modal="true"
                 :description="'Complete el siguiente formulario para obtener acceso.'"
                 :button_title="title"
                 @submit="submit"

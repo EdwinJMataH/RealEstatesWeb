@@ -3,7 +3,7 @@
 namespace App\Core\Helpers;
 use App\Repositories\ErrorMessagesRepository;
 
-class Response {
+class Reply {
 
     public static function getResponse(string $slug, $data = []) {
         return (object)[

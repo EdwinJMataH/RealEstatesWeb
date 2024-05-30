@@ -2,6 +2,7 @@
 
 return [
     'messages' => [
+        'passwords-sent'   => 'Hemos enviado por correo electrónico el enlace para restablecer su contraseña.',
         'error-email'      => 'El correo electrónico proporcionado, no corresponde a uno válido.',
         'error-phone'      => 'El número de celular proporcionado, no corresponde a uno válido.',
         'form-empty'       => 'Se han encontrado campos vacíos en el formulario. Por favor, llenarlos.',

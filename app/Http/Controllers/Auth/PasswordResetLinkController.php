@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Validation\ValidationException;
+use Exception;
+use Throwable;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Core\Helpers\Reply;
+use Illuminate\Http\Request;
+use App\Exceptions\ErrorException;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Validation\ValidationException;
 
 class PasswordResetLinkController extends Controller
 {
@@ -27,25 +31,24 @@ class PasswordResetLinkController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-        ]);
+        $slug = 'passwords-sent';
+        try {
 
-        // We will send the password reset link to this user. Once we have attempted
-        // to send the link, we will examine the response then see the message we
-        // need to show to the user. Finally, we'll send out a proper response.
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
+            $request->validate(['email' => 'required|email']);
 
-        if ($status == Password::RESET_LINK_SENT) {
-            return back()->with('status', __($status));
+            $status = Password::sendResetLink(
+                $request->only('email')
+            );
+
+            if ($status != 'passwords.sent') throw new Exception(__($status));
+
+            return Reply::getResponse($slug);
+        } catch (ErrorException $e) {
+            return $e->getResponse();
+        } catch (Throwable $e) {
+            throw new ErrorException(['message' => $e->getMessage()]);
         }
-
-        throw ValidationException::withMessages([
-            'email' => [trans($status)],
-        ]);
     }
 }

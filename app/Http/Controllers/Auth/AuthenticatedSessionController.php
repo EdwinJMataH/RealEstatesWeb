@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Throwable;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Core\Helpers\Reply;
 use Illuminate\Http\Request;
 use Illuminate\Support\Sleep;
+use App\Exceptions\ErrorException;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Route;
 use App\Providers\RouteServiceProvider;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Core\Helpers\Response as ResponseLogin;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -33,14 +35,19 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request)
     {
         $slug = 'login-success';
+        try {
 
-        $request->authenticate();
+            $request->authenticate();
 
-        $request->session()->regenerate();
+            $request->session()->regenerate();
 
-        return ResponseLogin::getResponse($slug);
+            return Reply::getResponse($slug);
 
-        // return redirect()->intended(route(RouteServiceProvider::HOME));
+        } catch (ErrorException $e) {
+            return $e->getResponse();
+        } catch (Throwable $e) {
+            throw new ErrorException(['message' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -49,13 +56,19 @@ class AuthenticatedSessionController extends Controller
     public function destroy(Request $request)
     {
         $slug = 'logout-success';
+        try {
 
-        Auth::guard('web')->logout();
+            Auth::guard('web')->logout();
 
-        $request->session()->invalidate();
+            $request->session()->invalidate();
 
-        $request->session()->regenerateToken();
+            $request->session()->regenerateToken();
 
-        return ResponseLogin::getResponse($slug);
+            return Reply::getResponse($slug);
+        } catch (ErrorException $e) {
+            return $e->getResponse();
+        } catch (Throwable $e) {
+            throw new ErrorException(['message' => $e->getMessage()]);
+        }
     }
 }

@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Throwable;
 use App\Models\User;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Core\Helpers\Reply;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
+use App\Exceptions\ErrorException;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Auth\Events\Registered;
 use App\Providers\RouteServiceProvider;
-use App\Core\Helpers\Response as ResponseRegister;
 
 class RegisteredUserController extends Controller
 {
@@ -34,27 +36,30 @@ class RegisteredUserController extends Controller
     public function store(Request $request)
     {
         $slug = 'register-success';
+        try {
 
-        $request->validate([
-            // 'name' => 'required|string|max:255',
-            'email'    => 'required|string|email|max:255|unique:'.User::class,
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+            $request->validate([
+                'email'    => 'required|string|email|max:255|unique:'.User::class,
+                'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            ]);
 
-        $user = User::create([
-            // 'name' => $request->name,
-            'uuid'      => Str::uuid()->toString(),
-            'type_user' => 'Customer',
-            'email'     => $request->email,
-            'password'  => Hash::make($request->password),
-        ]);
+            $user = User::create([
+                // 'name' => $request->name,
+                'uuid'      => Str::uuid()->toString(),
+                'type_user' => 'Customer',
+                'email'     => $request->email,
+                'password'  => Hash::make($request->password),
+            ]);
 
-        event(new Registered($user));
+            event(new Registered($user));
 
-        Auth::login($user);
+            Auth::login($user);
 
-        return ResponseRegister::getResponse($slug);
-
-        // return redirect(RouteServiceProvider::HOME);
+            return Reply::getResponse($slug);
+        } catch (ErrorException $e) {
+            return $e->getResponse();
+        } catch (Throwable $e) {
+            throw new ErrorException(['message' => $e->getMessage()]);
+        }
     }
 }

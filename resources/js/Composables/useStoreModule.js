@@ -2,7 +2,7 @@ import { ref } from "vue";
 import { getResponse } from "@/helpers.js";
 import { getModulesMenu } from "@/helpers.js";
 export default function useStoreModule() {
-    
+
     let modules = ref([]);
     let itemsMenu = ref([]);
     const init_model = () => {
@@ -29,21 +29,17 @@ export default function useStoreModule() {
         let status   = '';
         let data     = [];
         try {
-            const response = await axios.get(route('module.index'));
+            const response = await axios.post(route('module.index'));
             ({ severity, detail, status, data } = getResponse(response.data));
 
             if (data) {
-                console.log("data: " + data);
-
-
                 data.map(element => {
 
-                    let moduleMenu = getModulesMenu(element.module_id);
+                    let moduleMenu = getModulesMenu(element);
                     if (moduleMenu) itemsMenu.value.push(moduleMenu);
                 });
 
                 itemsMenu.value.sort((a, b) => a.orderBy - b.orderBy);
-
             }
 
 
@@ -61,8 +57,8 @@ export default function useStoreModule() {
 
 
     return {
-        model, 
-        clearModel, 
+        model,
+        clearModel,
         setValueModel,
         index,
         modules,

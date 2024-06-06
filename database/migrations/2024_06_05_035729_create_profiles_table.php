@@ -12,8 +12,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('modules', function (Blueprint $table) {
-            $table->string('id_module', length: 25)->primary();
+        Schema::create('profiles', function (Blueprint $table) {
+            $table->increments('id_profile');
+            $table->string('uuid', 45)->nullable();
+            $table->string('name', 20)->nullable();
+            $table->tinyInteger('all_modules')->unsigned()->default(0);
             $table->timestamp('created_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('modules');
+        Schema::dropIfExists('profiles');
     }
 };

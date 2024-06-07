@@ -42,8 +42,7 @@ const submit = (val) => {
 
                 <form @submit.prevent="submit">
                     <div  class="flex flex-col gap-6">
-                        <div class="flex w-full gap-6 lg:gap-6 flex-col">
-                            <!-- lg:flex-col -->
+                        <div class="flex w-full gap-6 lg:gap-6 flex-col pt-4">
                             <slot name="form"/>
                         </div>
                         <!-- <div class="card flex justify-content-center"> -->

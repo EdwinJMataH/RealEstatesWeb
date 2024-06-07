@@ -4,6 +4,7 @@ import { Link, router } from "@inertiajs/vue3";
 import AuthLayout from "@/Layouts/AuthLayout.vue";
 import Form from "@/Components/Form.vue";
 import Alert from "@/Components/Alert.vue";
+import Input from "@/Components/Input.vue";
 import useStoreAuthRegister from "@/Composables/useStoreAuthRegister.js";
 import { validateEmail, validateFormIsEmpty, validateSamePasword } from "@/helpers.js";
 const { model, invalid, register, clearInvalid, setValueInvalid } = useStoreAuthRegister();
@@ -65,24 +66,26 @@ const submit = async (val) => {
                 @submit="submit"
             >
                 <template #form>
-                    <div class="pt-4 w-full">
-                        <div class="flex flex-col gap-2">
-                            <label class="font-medium text-sm" for="email">Correo electrónico</label>
-                            <InputText id="email" v-model="model.email" :invalid="invalid.email"  />
-                        </div>
-                    </div>
-                    <div>
-                        <div class="flex flex-col gap-2">
-                            <label class="font-medium text-sm" for="password">Contraseña</label>
-                            <Password  id="password" v-model="model.password" toggleMask :invalid="invalid.password"  :feedback="false" />
-                        </div>
-                    </div>
-                    <div>
-                        <div class="flex flex-col gap-2">
-                            <label class="font-medium text-sm" for="password_confirmation">Confirmar contraseña</label>
-                            <Password  id="password_confirmation" v-model="model.password_confirmation" toggleMask :invalid="invalid.password_confirmation"  :feedback="false" />
-                        </div>
-                    </div>
+                    <Input
+                        :label="'Correo electrónico'"
+                        :model="model"
+                        :name="'email'"
+                        :invalid="invalid"
+                    />
+                    <Input
+                        :label="'Contraseña'"
+                        :model="model"
+                        :name="'password'"
+                        :invalid="invalid"
+                        :is_password="true"
+                    />
+                    <Input
+                        :label="'Confirmar contraseña'"
+                        :model="model"
+                        :name="'password_confirmation'"
+                        :invalid="invalid"
+                        :is_password="true"
+                    />
                 </template>
                 <template #options>
                     <div class="flex flex-col gap-y-4 md:flex-row justify-center items-center">

@@ -4,6 +4,7 @@ import { Link, router } from "@inertiajs/vue3";
 import AuthLayout from "@/Layouts/AuthLayout.vue";
 import Form from "@/Components/Form.vue";
 import Alert from "@/Components/Alert.vue";
+import Input from "@/Components/Input.vue";
 import useStoreAuth from "@/Composables/useStoreAuth.js";
 import { validateEmail, validateFormIsEmpty } from "@/helpers.js";
 const { model, invalid, login, clearInvalid, setValueInvalid } = useStoreAuth();
@@ -67,25 +68,19 @@ const submit = async (val) => {
                 @submit="submit"
             >
                 <template #form>
-                    <div class="pt-4 w-full">
-                        <div class="flex flex-col gap-2">
-                            <label class="font-medium text-sm" for="email">Correo electrónico</label>
-                            <InputText id="email" v-model="model.email" :invalid="invalid.email"  />
-                        </div>
-                    </div>
-                    <div>
-                        <div class="flex flex-col gap-2">
-                            <label class="font-medium text-sm" for="password">Contraseña</label>
-                            <Password  id="password" v-model="model.password" toggleMask :invalid="invalid.password"  :feedback="false" />
-                        </div>
-                    </div>
-
-                    <!-- <div>
-                        <div>
-                            <Checkbox name="remember" v-model="model.remember" :binary="true"/>
-                            <label class="font-light text-sm" for="remember">Recordarme</label>
-                        </div>
-                    </div> -->
+                    <Input
+                        :label="'Correo electrónico'"
+                        :model="model"
+                        :name="'email'"
+                        :invalid="invalid"
+                    />
+                    <Input
+                        :label="'Contraseña'"
+                        :model="model"
+                        :name="'password'"
+                        :invalid="invalid"
+                        :is_password="true"
+                    />
                 </template>
                 <template #options>
                     <div class="flex flex-col gap-y-4 md:flex-row justify-between items-center">

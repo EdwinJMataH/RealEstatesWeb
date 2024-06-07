@@ -4,6 +4,7 @@ import { Link, router } from "@inertiajs/vue3";
 import AuthLayout from "@/Layouts/AuthLayout.vue";
 import Form from "@/Components/Form.vue";
 import Alert from "@/Components/Alert.vue";
+import Input from "@/Components/Input.vue";
 import useStoreAuthForgotPassword from "@/Composables/useStoreAuthForgotPassword.js";
 import { validateEmail, validateFormIsEmpty } from "@/helpers.js";
 const { model, invalid, forgotPassword, clearInvalid, setValueInvalid, clearModel } = useStoreAuthForgotPassword();
@@ -55,12 +56,12 @@ const submit = async (val) => {
                 @submit="submit"
             >
                 <template #form>
-                    <div class="pt-4 w-full">
-                        <div class="flex flex-col gap-2">
-                            <label class="font-medium text-sm" for="email">Correo electrónico</label>
-                            <InputText id="email" v-model="model.email" :invalid="invalid.email"  />
-                        </div>
-                    </div>
+                    <Input
+                        :label="'Correo electrónico'"
+                        :model="model"
+                        :name="'email'"
+                        :invalid="invalid"
+                    />
                 </template>
             </Form>
         </template>

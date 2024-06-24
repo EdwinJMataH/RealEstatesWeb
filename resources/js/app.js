@@ -13,7 +13,10 @@ import Toast from 'primevue/toast';
 import ToastService from 'primevue/toastservice';
 import StyleClass from 'primevue/styleclass';
 import { router } from '@inertiajs/vue3'
+import ConfirmationService from 'primevue/confirmationservice';
+import { createPinia } from 'pinia';
 
+const pina = createPinia()
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 
 axios.interceptors.response.use(
@@ -37,6 +40,8 @@ createInertiaApp({
                 pt: Lara,
                 ripple: true
             })
+            .use(pina)
+            .use(ConfirmationService)
             .use(ToastService)
             .use(ZiggyVue, Ziggy)
             .directive('ripple', Ripple)

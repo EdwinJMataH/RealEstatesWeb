@@ -28,6 +28,33 @@ const isEmpty = (value) => {
     return value == null || value.length === 0;
 }
 
+const fetchAPI = async (object, functionCallback) => {
+    let severity, detail, status, data;
+    const { method = 'post', to, send = {}, parameter = {} } = object;
+
+    try {
+        const response = await axios({
+            method: method,
+            url: route(to, parameter),
+            data: send
+        });
+
+        ({ severity, detail, status, data = [] } = getResponse(response.data));
+
+    } catch (error) {
+        
+        ({ severity, detail, status, data = [] } = getResponse(error.response.data));
+
+    } finally {
+        functionCallback({
+            severity: severity,
+            detail: detail,
+            status: status,
+            data: data,
+        });
+    }
+}
+
 function getModulesMenu(module){
 
     let modules = {
@@ -105,6 +132,7 @@ const validateSamePasword = (object) => {
 
 
 export {
+    fetchAPI,
     modalDimensions,
     validateEmail,
     isEmpty,

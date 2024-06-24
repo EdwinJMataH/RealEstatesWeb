@@ -13,7 +13,7 @@ class ErrorException extends Exception {
     private   $slug;
     private   $error;
     protected $message;
-    private   $defaults = ['slug' => 'error', 'error' => '', 'message' => ''];
+    private   $defaults = ['slug' => 'error', 'error' => '', 'message' => null];
     private   $data     = [];
     public function __construct(array $exception = []) {
         $this->data = $exception;
@@ -61,7 +61,7 @@ class ErrorException extends Exception {
             'message' => $this->getMessage(),
             'slug'    => $this->getSlug(),
             'error'   => $this->getError(),
-            'code'    => $this->getCode(),
+            // 'code'    => $this->getCode(),
             'line'    => $this->getLine(),
             'file'    => $this->getFile(),
             'status'  => false

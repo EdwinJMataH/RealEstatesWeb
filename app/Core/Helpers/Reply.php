@@ -10,7 +10,7 @@ class Reply {
             'status'  => true,
             'slug'    => $slug,
             'message' => ErrorMessagesRepository::getMessage($slug),
-            'data'    => $data
+            'data'    => (object)$data
         ];
     }
 

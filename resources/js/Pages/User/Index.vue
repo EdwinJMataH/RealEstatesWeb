@@ -2,8 +2,7 @@
 import { Head } from '@inertiajs/vue3';
 import { ref } from "vue";
 import DashboardLayout from '@/Layouts/DashboardLayout.vue';
-// import { TabProfilesUsers } from '@/Pages/ProfilesUsers/Partials';
-import UserIndex from '@/Pages/ProfilesUsers/UserIndex.vue';
+import TableUsers from "./Partials/TableUsers.vue";
 
 let title = ref('Usuarios');
 
@@ -16,8 +15,9 @@ let title = ref('Usuarios');
         <template #title>{{ title }}</template>
 
         <template #content>
-            <UserIndex/>
+            <TableUsers />
         </template>
 
     </DashboardLayout>
 </template>
+

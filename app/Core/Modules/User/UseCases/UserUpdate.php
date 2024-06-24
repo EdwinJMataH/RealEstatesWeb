@@ -3,24 +3,23 @@ namespace App\Core\Modules\User\UseCases;
 use Throwable;
 use App\Models\User;
 use App\Core\Helpers\Reply;
-use Illuminate\Support\Str;
 use App\Exceptions\ErrorException;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use App\Core\Modules\User\UseCases\UserValidator;
 use App\Core\Modules\Permission\UseCases\PermissionGet;
 
-class UserStore {
+class UserUpdate {
 
     public static function store($request)
     {
-        $email    = $request->email;
-        $profile  = $request->profile;
-        $type     = $request->type;
-        $uuid     = Str::uuid()->toString();
-        $password = Str::random(8);
+        $email   = $request->email;
+        $profile = $request->profile;
+        $type    = $request->type;
+        $uuid    = $request->uuid;
 
         try {
+            if (!$uuid) throw new ErrorException(['slug' => 'uuid-not-found']);
+
             $is_success = UserValidator::get((object)[
                 'profile'   => $profile,
                 'type'      => $type,
@@ -36,18 +35,16 @@ class UserStore {
 
             DB::beginTransaction();
 
-            $is_created_user = User::create([
-                'id_permission' => $is_get->data->id_permission,
-                'uuid'          => $uuid,
-                'email'         => $email,
-                'password'      => Hash::make($password),
-            ]);
-
-            if (!$is_created_user->id) throw new ErrorException(['slug' => 'register-error']);
+            $is_updated = User::where('uuid', $uuid)
+                ->update([
+                    'id_permission' => $is_get->data->id_permission,
+                    'email'         => $email,
+                ]);
+            if (!$is_updated) throw new ErrorException(['slug' => 'update-error']);
 
             DB::commit();
 
-            return Reply::getResponse('register-success');
+            return Reply::getResponse('update-success');
 
         } catch (ErrorException $e) {
             DB::rollBack();

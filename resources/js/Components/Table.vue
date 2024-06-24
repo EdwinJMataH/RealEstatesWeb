@@ -1,6 +1,10 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { FilterMatchMode } from "primevue/api";
+import ConfirmDialog from 'primevue/confirmdialog';
+import ConfirmPopup from 'primevue/confirmpopup';
+import { useConfirm } from "primevue/useconfirm";
+const confirm = useConfirm();
 // import { useToast } from 'primevue/usetoast';
 import { ProductService } from "@/Service/ProductService";
 const emits = defineEmits(['open:dialog-new']);
@@ -164,9 +168,49 @@ const getStatusLabel = (status) => {
     }
 };
 
+const clickAction = (event, val) => {
+    const { index, data } = JSON.parse(JSON.stringify(val));
+    const actions = props.actions[index];
+
+    if (actions.action == 'destroy') {
+        confirm.require({
+            target: event.currentTarget,
+            message: '¿Estas seguro que deseas eliminar?',
+            header: 'Confirmación',
+            icon: 'pi pi-exclamation-triangle',
+            rejectProps: {
+                label: 'Cancel',
+                severity: 'secondary',
+                outlined: true
+            },
+            acceptProps: {
+                label: 'Si'
+            },
+            accept: () => { actions.callback(data); },
+            // reject: () => { }
+        });
+    }
+
+    if (actions.action == 'edit') {
+        actions.callback(data);
+        // emits('open:dialog-new', true)
+    }
+};
+
 </script>
 
 <template>
+    <ConfirmPopup>
+        <template #container="{ message, acceptCallback, rejectCallback }">
+            <div class="rounded-full p-3">
+                <span>{{ message.message }}</span>
+                <div class="flex items-center gap-2 mt-3">
+                    <Button label="Cancelar"  @click="rejectCallback" size="small" severity="secondary"></Button>
+                    <Button label="Continuar" @click="acceptCallback" size="small"></Button>
+                </div>
+            </div>
+        </template>
+    </ConfirmPopup>
     <Toolbar class="mb-4" v-if="props.multiple">
         <template #start>
             <Button
@@ -274,25 +318,12 @@ const getStatusLabel = (status) => {
                         <i
                             v-if="slotProps.data.action.includes(index)"
                             :class="`button-table pi pi-${action.icon} border-${action.color}-500 text-${action.color}-500 hover:bg-${action.color}-100`"
-                            @click="action.callback(slotProps.data)"
-                        >
+                            @click="clickAction($event, { index: index, data: slotProps.data })"
+                            >
+                            <!-- @click="action.callback(slotProps.data)" -->
                         </i>
                     </div>
                 </div>
-            </template>
-        </Column>
-
-        <Column :exportable="false">
-            <template #body="slotProps">
-                <i class="pi pi-ellipsis-v text-black cursor-pointer"></i>
-                <!-- <div class="flex gap-2">
-                    <div v-for="(action, index) in actions" :key="index" >
-                        <i v-if="slotProps.data.action.includes(index)" 
-                            :class="`button-table pi pi-${action.icon} border-${action.color}-500 text-${action.color}-500 hover:bg-${action.color}-100`" 
-                            @click="action.callback(slotProps.data)">
-                        </i>
-                    </div>
-                </div> -->
             </template>
         </Column>
     </DataTable>

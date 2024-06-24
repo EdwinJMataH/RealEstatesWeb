@@ -13,6 +13,10 @@ const props = defineProps({
         type: Boolean,
         default: true,
     },
+    title: {
+        type: String,
+        default: 'Modal',
+    },
 });
 
 const hideDialog = () => {
@@ -32,7 +36,7 @@ const submit = (val) => {
             :visible="props.is_dialog_visible"
             modal
             @update:visible="hideDialog"
-            header="Edit Profile"
+            :header="props.title"
             :style="modalDimensions"
         >
 

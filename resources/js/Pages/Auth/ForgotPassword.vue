@@ -1,27 +1,30 @@
 <script setup>
-import { watch, ref } from "vue";
-import { Link, router } from "@inertiajs/vue3";
+import { ref } from "vue";
 import AuthLayout from "@/Layouts/AuthLayout.vue";
 import Form from "@/Components/Form.vue";
-import Alert from "@/Components/Alert.vue";
 import Input from "@/Components/Input.vue";
-import useStoreAuthForgotPassword from "@/Composables/useStoreAuthForgotPassword.js";
 import { validateEmail, validateFormIsEmpty } from "@/helpers.js";
-const { model, invalid, forgotPassword, clearInvalid, setValueInvalid, clearModel } = useStoreAuthForgotPassword();
+import { useStoreAuth } from "./Store/useStoreAuth.js";
+const storeAuth = useStoreAuth();
+const { invalid, model } = storeToRefs(storeAuth);
 const title       = 'Recuperar contraseña';
 const description = 'Compartenos la dirección de correo electrónico y enviaremos un enlace para restablecer su contraseña que le permitirá elegir una nueva.';
 const alerts  = ref([]);
 
 const submit = async (val) => {
     alerts.value = [];
-    clearInvalid();
+    storeAuth.clearInvalid();
     if (!val) return;
+
+    delete model.value.remember;
+    delete model.value.password;
+    delete model.value.password_confirmation;
 
     let isEmpty = validateFormIsEmpty({ ...model.value });
 
     if (!isEmpty.status) {
         alerts.value.push(isEmpty.alert);
-        setValueInvalid({ email:true })
+        storeAuth.setValueInvalid({ email:true })
         return;
     }
 
@@ -29,24 +32,21 @@ const submit = async (val) => {
 
     if (!isEmail.status) {
         alerts.value.push(isEmail.alert);
-        setValueInvalid({ email:true })
+        storeAuth.setValueInvalid({ email:true })
         return;
     }
 
-    await forgotPassword((response => {
+    await storeAuth.forgotPassword((response => {
         const { severity, detail, status } = response;
         alerts.value = [];
         alerts.value.push({ severity: severity, detail: detail })
-        clearModel();
-
     }));
 };
 
 </script>
 
 <template>
-    <Alert :alerts="alerts" />
-    <AuthLayout :title="title">
+    <AuthLayout :title="title" :alerts="alerts">
         <template #content>
             <Form
                 :title="title"

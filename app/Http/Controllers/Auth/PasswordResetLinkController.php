@@ -21,9 +21,7 @@ class PasswordResetLinkController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('Auth/ForgotPassword', [
-            'status' => session('status'),
-        ]);
+        return Inertia::render('Auth/ForgotPassword');
     }
 
     /**
@@ -33,7 +31,6 @@ class PasswordResetLinkController extends Controller
      */
     public function store(Request $request)
     {
-        $slug = 'passwords-sent';
         try {
 
             $request->validate(['email' => 'required|email']);
@@ -44,7 +41,7 @@ class PasswordResetLinkController extends Controller
 
             if ($status != 'passwords.sent') throw new Exception(__($status));
 
-            return Reply::getResponse($slug);
+            return Reply::getResponse('passwords-sent');
         } catch (ErrorException $e) {
             return $e->getResponse();
         } catch (Throwable $e) {

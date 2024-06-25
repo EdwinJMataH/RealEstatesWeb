@@ -7,13 +7,10 @@ use Inertia\Inertia;
 use Inertia\Response;
 use App\Core\Helpers\Reply;
 use Illuminate\Http\Request;
-use Illuminate\Support\Sleep;
 use App\Exceptions\ErrorException;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Route;
-use App\Providers\RouteServiceProvider;
 use App\Http\Requests\Auth\LoginRequest;
 
 class AuthenticatedSessionController extends Controller
@@ -23,10 +20,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('Auth/Login', [
-            'canResetPassword' => Route::has('password.request'),
-            'status' => session('status'),
-        ]);
+        return Inertia::render('Auth/Login');
     }
 
     /**
@@ -34,14 +28,13 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
-        $slug = 'login-success';
         try {
 
             $request->authenticate();
 
             $request->session()->regenerate();
 
-            return Reply::getResponse($slug);
+            return Reply::getResponse('login-success');
 
         } catch (ErrorException $e) {
             return $e->getResponse();
@@ -55,7 +48,6 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request)
     {
-        $slug = 'logout-success';
         try {
 
             Auth::guard('web')->logout();
@@ -64,7 +56,8 @@ class AuthenticatedSessionController extends Controller
 
             $request->session()->regenerateToken();
 
-            return Reply::getResponse($slug);
+            return Reply::getResponse('logout-success');
+
         } catch (ErrorException $e) {
             return $e->getResponse();
         } catch (Throwable $e) {

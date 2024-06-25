@@ -1,31 +1,28 @@
 <script setup>
-import { watch, ref } from "vue";
+import { ref } from "vue";
 import { Link, router } from "@inertiajs/vue3";
 import AuthLayout from "@/Layouts/AuthLayout.vue";
 import Form from "@/Components/Form.vue";
-import Alert from "@/Components/Alert.vue";
 import Input from "@/Components/Input.vue";
-import useStoreAuth from "@/Composables/useStoreAuth.js";
 import { validateEmail, validateFormIsEmpty } from "@/helpers.js";
-const { model, invalid, login, clearInvalid, setValueInvalid } = useStoreAuth();
-const title = 'Iniciar sesión';
-const alerts  = ref([]);
+import { useStoreAuth } from "./Store/useStoreAuth.js";
+const storeAuth = useStoreAuth();
+const { invalid, model } = storeToRefs(storeAuth);
+const title  = 'Iniciar sesión';
+const alerts = ref([]);
 
-defineProps({
-    status: {
-        type: String,
-    },
-});
 const submit = async (val) => {
     alerts.value = [];
-    clearInvalid();
+    storeAuth.clearInvalid();
     if (!val) return;
 
+    delete model.value.password_confirmation;
+    
     let isEmpty = validateFormIsEmpty({ ...model.value });
 
     if (!isEmpty.status) {
         alerts.value.push(isEmpty.alert);
-        setValueInvalid({ email:true, password:true })
+        storeAuth.setValueInvalid({ email:true, password:true })
         return;
     }
 
@@ -33,22 +30,20 @@ const submit = async (val) => {
 
     if (!isEmail.status) {
         alerts.value.push(isEmail.alert);
-        setValueInvalid({ email:true, password:false })
+        storeAuth.setValueInvalid({ email:true, password:false })
         return;
     }
 
-
-    await login((response => {
+    await storeAuth.login((response => {
         const { severity, detail, status } = response;
         alerts.value = [];
         alerts.value.push({ severity: severity, detail: detail })
 
         if (status) {
-            // router.reload();
             setTimeout(() => {
-                window.location.reload();
+                storeAuth.clearModel();
+                router.visit(route('dashboard'));
             }, 1000);
-            // router.get(route('dashboard'));
         }
     }));
 };
@@ -56,8 +51,7 @@ const submit = async (val) => {
 </script>
 
 <template>
-    <Alert :alerts="alerts" />
-    <AuthLayout :title="title">
+    <AuthLayout :title="title" :alerts="alerts">
         <template #content>
             <Form
                 :title="'Bienvenido a RealStatesWeb! 🚀'"

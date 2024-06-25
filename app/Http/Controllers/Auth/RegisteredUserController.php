@@ -11,12 +11,12 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
 use App\Exceptions\ErrorException;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Auth\Events\Registered;
-use App\Providers\RouteServiceProvider;
+use App\Core\Modules\Permission\UseCases\PermissionGet;
 
 class RegisteredUserController extends Controller
 {
@@ -35,7 +35,11 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
-        $slug = 'register-success';
+        $uuid                  = Str::uuid()->toString();
+        $email                 = $request->email;
+        $password              = $request->password;
+        $password_confirmation = $request->password_confirmation;
+
         try {
 
             $request->validate([
@@ -43,22 +47,31 @@ class RegisteredUserController extends Controller
                 'password' => ['required', 'confirmed', Rules\Password::defaults()],
             ]);
 
-            $user = User::create([
-                // 'name' => $request->name,
-                'uuid'      => Str::uuid()->toString(),
-                'type_user' => 'Customer',
-                'email'     => $request->email,
-                'password'  => Hash::make($request->password),
+            $is_get =  PermissionGet::search((object)['profile' => 'Customer']);
+            if (!$is_get->status) throw new ErrorException(['slug' => $is_get->slug]);
+
+            DB::beginTransaction();
+
+            $is_created_user = User::create([
+                'id_permission' => $is_get->data->id_permission,
+                'uuid'          => $uuid,
+                'email'         => $email,
+                'password'      => Hash::make($password),
             ]);
 
-            event(new Registered($user));
+            event(new Registered($is_created_user));
 
-            Auth::login($user);
+            Auth::login($is_created_user);
 
-            return Reply::getResponse($slug);
+            DB::commit();
+
+            return Reply::getResponse('register-success');
+
         } catch (ErrorException $e) {
+            DB::rollBack();
             return $e->getResponse();
         } catch (Throwable $e) {
+            DB::rollBack();
             throw new ErrorException(['message' => $e->getMessage()]);
         }
     }

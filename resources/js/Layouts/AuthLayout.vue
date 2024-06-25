@@ -1,5 +1,6 @@
 <script setup>
 import { Head } from "@inertiajs/vue3";
+import Alert from "@/Components/Alert.vue";
 
 const props = defineProps({
     title: {
@@ -7,9 +8,15 @@ const props = defineProps({
         default: "",
         required: true,
     },
+    alerts: {
+        type: Array,
+        default: []
+    },
 });
 </script>
 <template>
+    <Alert :alerts="props.alerts" />
+
     <Head :title="props.title" />
 
     <main class="bg-gray-600 w-screen h-screen overflow-hidden flex justify-center">

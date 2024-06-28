@@ -1,6 +1,11 @@
 <script setup>
+import { ref } from "vue";
 import { Head } from "@inertiajs/vue3";
 import Alert from "@/Components/Alert.vue";
+import Spinner from "@/Components/Spinner/Spinner.vue";
+import { spinner } from "@/helpers.js";
+
+// spinner();
 
 const props = defineProps({
     title: {
@@ -13,8 +18,14 @@ const props = defineProps({
         default: []
     },
 });
+
+onMounted(() => {
+    // spinner(false);
+});
 </script>
 <template>
+    <Spinner/>
+
     <Alert :alerts="props.alerts" />
 
     <Head :title="props.title" />

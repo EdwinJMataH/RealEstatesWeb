@@ -94,7 +94,7 @@ const submit = async (val) => {
         if (status) {
             setTimeout(() => {
                 closeDialog(true);
-                router.visit(route('users.index'));
+                storeUser.all();
             }, 1000);
         }
     }));

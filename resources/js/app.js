@@ -14,11 +14,11 @@ import ToastService from 'primevue/toastservice';
 import StyleClass from 'primevue/styleclass';
 import { router } from '@inertiajs/vue3'
 import ConfirmationService from 'primevue/confirmationservice';
-import { createPinia } from 'pinia';
+import { createPinia, setActivePinia  } from 'pinia';
 
-const pina = createPinia()
+const pinia = createPinia()
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
-
+setActivePinia(pinia);
 axios.interceptors.response.use(
     response => response,
     error => {
@@ -40,7 +40,7 @@ createInertiaApp({
                 pt: Lara,
                 ripple: true
             })
-            .use(pina)
+            .use(pinia)
             .use(ConfirmationService)
             .use(ToastService)
             .use(ZiggyVue, Ziggy)
@@ -48,6 +48,8 @@ createInertiaApp({
             .directive('styleclass', StyleClass)
             .component('Toast', Toast)
             .mount(el);
+
+
     },
     // progress: {
     //     color: '#4B5563',

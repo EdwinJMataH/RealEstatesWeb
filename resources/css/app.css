@@ -16,6 +16,10 @@
     img {
         @apply object-cover object-center w-full h-full;
     }
+
+    thead {
+        @apply z-0 !important;
+    }
 }
 
 

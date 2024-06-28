@@ -1,3 +1,18 @@
+import { useStoreSpinner } from "@/Components/Spinner/Store/useStoreSpinner.js";
+const storeSpinner = useStoreSpinner();
+const { visible } = storeToRefs(storeSpinner);
+
+function spinner(show = true){
+    if (show) {
+        storeSpinner.show();
+    } else {
+        setTimeout(() => {
+            storeSpinner.hidden();
+        }, 1500);
+    }
+}
+
+
 const modalDimensions = {
     width: '90vw', // Ancho del 90% del viewport
     maxWidth: '640px', // Ancho máximo de 640px
@@ -29,6 +44,7 @@ const isEmpty = (value) => {
 }
 
 const fetchAPI = async (object, functionCallback) => {
+    spinner();
     let severity, detail, status, data;
     const { method = 'post', to, send = {}, parameter = {} } = object;
 
@@ -42,10 +58,11 @@ const fetchAPI = async (object, functionCallback) => {
         ({ severity, detail, status, data = [] } = getResponse(response.data));
 
     } catch (error) {
-        
+
         ({ severity, detail, status, data = [] } = getResponse(error.response.data));
 
     } finally {
+        spinner(false);
         functionCallback({
             severity: severity,
             detail: detail,
@@ -140,5 +157,6 @@ export {
     messages,
     getModulesMenu,
     validateFormIsEmpty,
-    validateSamePasword
+    validateSamePasword,
+    spinner
 };

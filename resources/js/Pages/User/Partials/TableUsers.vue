@@ -31,7 +31,7 @@ const destroy = async (val) => {
         if (status) {
             setTimeout(() => {
                 storeUser.clearModel();
-                router.visit(route('users.index'));
+                storeUser.all();
             }, 1000);
         }
     }));

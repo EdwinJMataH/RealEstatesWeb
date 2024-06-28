@@ -38,6 +38,8 @@ const submit = (val) => {
             @update:visible="hideDialog"
             :header="props.title"
             :style="modalDimensions"
+            :autoZIndex="false"
+            :baseZIndex="8"
         >
 
             <form @submit.prevent="submit">

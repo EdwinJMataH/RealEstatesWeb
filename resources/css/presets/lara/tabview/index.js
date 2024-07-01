@@ -29,7 +29,7 @@ export default {
 
             // Size and Shape
             'h-full w-12',
-            'rounded-none',
+            'rounded-lg',
 
             // Colors
             'bg-surface-0 dark:bg-surface-800',
@@ -65,6 +65,7 @@ export default {
             // Spacing
             'list-none',
             'p-0 m-0',
+            'rounded-lg',
 
             // Colors
             'bg-surface-0 dark:bg-surface-800',
@@ -141,10 +142,11 @@ export default {
         content: {
             class: [
                 // Spacing
-                'py-5',
+                // 'py-5',
 
                 // Shape
-                'rounded-b-md',
+                'rounded-lg',
+
 
                 // Colors
                 'bg-surface-0 dark:bg-surface-800',

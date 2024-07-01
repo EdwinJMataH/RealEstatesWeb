@@ -20,8 +20,8 @@ class ProfileController extends Controller
         return response()->json($response);
     }
 
-    public function edit() {
-        return Inertia::render('Profile');
+    public function index() {
+        return Inertia::render('Profile/Index');
     }
 
 

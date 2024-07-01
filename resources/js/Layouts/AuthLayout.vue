@@ -24,7 +24,7 @@ onMounted(() => {
 });
 </script>
 <template>
-    <Spinner/>
+    <!-- <Spinner/> -->
 
     <Alert :alerts="props.alerts" />
 

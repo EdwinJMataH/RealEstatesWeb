@@ -17,7 +17,7 @@ const submit = async (val) => {
     if (!val) return;
 
     delete model.value.remember;
-    
+
     let isEmpty = validateFormIsEmpty({ ...model.value });
 
     if (!isEmpty.status) {
@@ -63,6 +63,7 @@ const submit = async (val) => {
             <Form
                 :title="'Crear una cuenta'"
                 :is_modal="true"
+                :divider="true"
                 :description="'Complete el siguiente formulario para obtener acceso.'"
                 :button_title="title"
                 @submit="submit"

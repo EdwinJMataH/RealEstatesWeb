@@ -229,102 +229,104 @@ const clickAction = (event, val) => {
             />
         </template>
     </Toolbar>
-    <DataTable
-        ref="dt"
-        :value="props.data"
-        v-model:selection="selectedProducts"
-        removableSort
-        scrollable
-        scrollHeight="400px"
-        dataKey="id"
-        :paginator="true"
-        :rows="10"
-        :filters="filters"
-        paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-        :rowsPerPageOptions="[5, 10, 25, 50]"
-        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords}"
-    >
-        <template #header>
-            <div
-                class="flex flex-wrap gap-2 align-items-center justify-between"
-            >
-                <Button
-                    label="Nuevo"
-                    icon="pi pi-plus"
-                    severity="success"
-                    @click="openNew"
-                />
-                <InputText
-                    v-model="filters['global'].value"
-                    placeholder="Search..."
-                />
-            </div>
-        </template>
-
-        <Column
-            v-if="props.multiple"
-            selectionMode="multiple"
-            style="width: 3rem"
-            :exportable="false"
-        ></Column>
-
-        <Column
-            v-for="column of props.columns"
-            :key="column.field"
-            :field="column.field"
-            :header="column.header"
-            sortable
+    <div class="rounded-lg p-6 lg:p-8 bg-white">
+        <DataTable
+            ref="dt"
+            :value="props.data"
+            v-model:selection="selectedProducts"
+            removableSort
+            scrollable
+            scrollHeight="400px"
+            dataKey="id"
+            :paginator="true"
+            :rows="10"
+            :filters="filters"
+            paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+            :rowsPerPageOptions="[5, 10, 25, 50]"
+            currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords}"
         >
-            <template #body="slotProps">
-                <template v-if="column.is_image">
-                    <img
-                        :src="`https://primefaces.org/cdn/primevue/images/product/${slotProps.data.image}`"
-                        :alt="slotProps.data.image"
-                        class="border-round"
-                        style="width: 64px"
+            <template #header>
+                <div
+                    class="flex flex-wrap gap-2 align-items-center justify-between"
+                >
+                    <Button
+                        label="Nuevo"
+                        icon="pi pi-plus"
+                        severity="success"
+                        @click="openNew"
                     />
-                </template>
-
-                <template v-if="column.is_money">
-                    {{ formatCurrency(slotProps.data[column.field]) }}
-                </template>
-
-                <template v-if="column.is_rating">
-                    <Rating
-                        :modelValue="slotProps.data.rating"
-                        :readonly="true"
-                        :cancel="false"
+                    <InputText
+                        v-model="filters['global'].value"
+                        placeholder="Search..."
                     />
-                </template>
-
-                <template v-if="column.is_chip">
-                    <Tag
-                        :value="slotProps.data.inventoryStatus"
-                        :severity="
-                            getStatusLabel(slotProps.data.inventoryStatus)
-                        "
-                    />
-                </template>
-
-                <template v-else>
-                    {{ slotProps.data[column.field] }}
-                </template>
-            </template>
-        </Column>
-        <Column v-if="actions.length" :exportable="false" :header="'Acciones'">
-            <template #body="slotProps">
-                <div class="flex gap-2">
-                    <div v-for="(action, index) in actions" :key="index">
-                        <i
-                            v-if="slotProps.data.action.includes(index)"
-                            :class="`button-table pi pi-${action.icon} border-${action.color}-500 text-${action.color}-500 hover:bg-${action.color}-100`"
-                            @click="clickAction($event, { index: index, data: slotProps.data })"
-                            >
-                            <!-- @click="action.callback(slotProps.data)" -->
-                        </i>
-                    </div>
                 </div>
             </template>
-        </Column>
-    </DataTable>
+
+            <Column
+                v-if="props.multiple"
+                selectionMode="multiple"
+                style="width: 3rem"
+                :exportable="false"
+            ></Column>
+
+            <Column
+                v-for="column of props.columns"
+                :key="column.field"
+                :field="column.field"
+                :header="column.header"
+                sortable
+            >
+                <template #body="slotProps">
+                    <template v-if="column.is_image">
+                        <img
+                            :src="`https://primefaces.org/cdn/primevue/images/product/${slotProps.data.image}`"
+                            :alt="slotProps.data.image"
+                            class="border-round"
+                            style="width: 64px"
+                        />
+                    </template>
+
+                    <template v-if="column.is_money">
+                        {{ formatCurrency(slotProps.data[column.field]) }}
+                    </template>
+
+                    <template v-if="column.is_rating">
+                        <Rating
+                            :modelValue="slotProps.data.rating"
+                            :readonly="true"
+                            :cancel="false"
+                        />
+                    </template>
+
+                    <template v-if="column.is_chip">
+                        <Tag
+                            :value="slotProps.data.inventoryStatus"
+                            :severity="
+                                getStatusLabel(slotProps.data.inventoryStatus)
+                            "
+                        />
+                    </template>
+
+                    <template v-else>
+                        {{ slotProps.data[column.field] }}
+                    </template>
+                </template>
+            </Column>
+            <Column v-if="actions.length" :exportable="false" :header="'Acciones'">
+                <template #body="slotProps">
+                    <div class="flex gap-2">
+                        <div v-for="(action, index) in actions" :key="index">
+                            <i
+                                v-if="slotProps.data.action.includes(index)"
+                                :class="`button-table pi pi-${action.icon} border-${action.color}-500 text-${action.color}-500 hover:bg-${action.color}-100`"
+                                @click="clickAction($event, { index: index, data: slotProps.data })"
+                                >
+                                <!-- @click="action.callback(slotProps.data)" -->
+                            </i>
+                        </div>
+                    </div>
+                </template>
+            </Column>
+        </DataTable>
+    </div>
 </template>

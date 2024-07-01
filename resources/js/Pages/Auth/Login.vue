@@ -17,7 +17,7 @@ const submit = async (val) => {
     if (!val) return;
 
     delete model.value.password_confirmation;
-    
+
     let isEmpty = validateFormIsEmpty({ ...model.value });
 
     if (!isEmpty.status) {
@@ -55,6 +55,7 @@ const submit = async (val) => {
         <template #content>
             <Form
                 :title="'Bienvenido a RealStatesWeb! 🚀'"
+                :divider="true"
                 :is_modal="true"
                 :description="'Asegúrese de que sus datos ingresados sean los correctos.'"
                 :button_title="title"
@@ -74,6 +75,7 @@ const submit = async (val) => {
                         :name="'password'"
                         :invalid="invalid"
                         :is_password="true"
+                        :feedback_password="false"
                     />
                 </template>
                 <template #options>

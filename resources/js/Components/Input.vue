@@ -26,6 +26,10 @@ defineProps({
         type: Boolean,
         default: false,
     },
+    feedback_password: {
+        type: Boolean,
+        default: true,
+    },
 });
 </script>
 
@@ -39,8 +43,21 @@ defineProps({
             v-model="model[name]"
             toggleMask
             :invalid="invalid[name]"
-            :feedback="false"
-        />
+            :feedback="feedback_password"
+            :weakLabel="'Débil'"
+            :mediumLabel="'Medio'"
+            :strongLabel="'Fuerte'"
+        >
+            <template #footer>
+                <Divider />
+                <ul class="pl-2 ml-2 my-0 leading-normal">
+                    <li>Al menos una minúscula</li>
+                    <li>Al menos una mayúscula</li>
+                    <li>Al menos un número</li>
+                    <li>Mínimo 8 caracteres</li>
+                </ul>
+            </template>
+        </Password>
 
         <InputText
             v-if="!is_password"

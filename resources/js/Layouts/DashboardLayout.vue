@@ -2,6 +2,7 @@
 import { ref, onMounted } from "vue";
 import { Link } from "@inertiajs/vue3";
 import Alert from "@/Components/Alert.vue";
+import Footer from "@/Components/Footer.vue";
 import useStoreAuth from "@/Composables/useStoreAuth.js";
 import useStoreModule from "@/Composables/useStoreModule.js";
 import Spinner from "@/Components/Spinner/Spinner.vue";
@@ -147,19 +148,11 @@ onMounted(() => {
     <main class="py-10 bg-slate-100 flex-grow">
         <div class="container-custom space-y-16">
             <div class="max-w-7xl mx-auto px-4 lg:px-8 min-h-96 ">
-                <div class="rounded-lg p-6 lg:p-8 bg-white">
                     <slot name="content"/>
-                </div>
             </div>
         </div>
     </main>
-
-    <footer class="py-4 border-b-slate-200 border-t">
-        <div class="flex flex-col md:flex-row justify-center gap-1 content-center">
-            <p class="text-center">Copyright © 2024</p>
-            <p class="text-center">All right reserved by HOLA</p>
-        </div>
-    </footer>
+    <Footer/>
 </div>
 
 </template>

@@ -78,7 +78,7 @@ function getModulesMenu(module){
         profile: {
             label: 'Pefil',
             icon: 'pi pi-user',
-            route: 'profile.edit',
+            route: 'profile.index',
             orderBy: 1
         },
         users: {
@@ -129,9 +129,18 @@ const getResponse = (response) => {
 }
 
 const validateFormIsEmpty = (object) => {
+
+    let properties = {};
+    Object.keys(object).forEach(element => {
+        if (isEmpty(object[element])) {
+            properties[element] = true;
+        }
+    });
+
     return {
-        status: !Object.keys(object).some(element => isEmpty(object[element])),
+        status: properties.length,
         alert: { severity: 'warn', detail: messages['form-empty']},
+        properties: properties
     }
 };
 
@@ -141,6 +150,11 @@ const validateSamePasword = (object) => {
         alert: { severity: 'warn', detail: messages['error-passwords']},
     }
 };
+
+const validatePassword = (password) =>  {
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+    return regex.test(password);
+}
 
 
 
@@ -158,5 +172,6 @@ export {
     getModulesMenu,
     validateFormIsEmpty,
     validateSamePasword,
+    validatePassword,
     spinner
 };

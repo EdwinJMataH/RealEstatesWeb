@@ -138,7 +138,7 @@ const validateFormIsEmpty = (object) => {
     });
 
     return {
-        status: properties.length,
+        status: !Boolean(Object.keys(properties).length),
         alert: { severity: 'warn', detail: messages['form-empty']},
         properties: properties
     }

@@ -16,13 +16,14 @@ const submit = async (val) => {
     storeAuth.clearInvalid();
     if (!val) return;
 
-    delete model.value.password_confirmation;
+    let modelTemp = { ...model.value };
+    delete modelTemp.password_confirmation;
+    delete modelTemp.remember;
 
-    let isEmpty = validateFormIsEmpty({ ...model.value });
-
+    let isEmpty = validateFormIsEmpty({ ...modelTemp });
     if (!isEmpty.status) {
         alerts.value.push(isEmpty.alert);
-        storeAuth.setValueInvalid({ email:true, password:true })
+        storeAuth.setValueInvalid({...isEmpty.properties})
         return;
     }
 

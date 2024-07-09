@@ -22,7 +22,7 @@ const submit = async (val) => {
 
     if (!isEmpty.status) {
         alerts.value.push(isEmpty.alert);
-        storeAuth.setValueInvalid({ email:true, password:true, password_confirmation: true })
+        storeAuth.setValueInvalid({...isEmpty.properties})
         return;
     }
 

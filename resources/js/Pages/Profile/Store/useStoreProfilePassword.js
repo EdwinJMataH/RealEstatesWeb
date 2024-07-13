@@ -2,20 +2,9 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 import { fetchAPI } from "@/helpers.js";
 
-export const useStoreProfile = defineStore('useStoreProfile', () => {
-
+export const useStoreProfilePassword = defineStore('useStoreProfilePassword', () => {
 
     const init_model = () => {
-        return {
-            email: null,
-            name: null,
-            current_password: null,
-            password: null,
-            password_confirmation: null,
-        };
-    };
-
-    const init_model_password = () => {
         return {
             current_password: null,
             password: null,
@@ -25,25 +14,14 @@ export const useStoreProfile = defineStore('useStoreProfile', () => {
 
     const is_invalid = () => {
         return {
-            email: false,
-            name: false,
             current_password: false,
             password: false,
             password_confirmation: false,
         };
     };
 
-    let modelPassword   = ref(init_model_password());
     let model   = ref(init_model());
     let invalid = ref(is_invalid());
-
-    const clearModelPassword = () => {
-        modelPassword.value = init_model_password();
-    };
-
-    const setValueModelPassword = (value) => {
-        modelPassword.value = { ...value };
-    };
 
     const clearModel = () => {
         model.value = init_model();
@@ -61,9 +39,9 @@ export const useStoreProfile = defineStore('useStoreProfile', () => {
         invalid.value = { ...value };
     };
 
-    const password = async (functionCallback = ()=>{}) => {
+    const update = async (functionCallback = ()=>{}) => {
 
-        await fetchAPI({ method: 'post', to: 'profile.password', send: {...modelPassword.value } }, (response) => {
+        await fetchAPI({ method: 'post', to: 'profile.password', send: {...model.value } }, (response) => {
             functionCallback(response);
         })
     }
@@ -76,9 +54,6 @@ export const useStoreProfile = defineStore('useStoreProfile', () => {
         model,
         clearModel,
         setValueModel,
-        modelPassword,
-        clearModelPassword,
-        setValueModelPassword,
-        password
+        update
     };
 });

@@ -11,7 +11,7 @@ export default function useStoreProfile() {
         { label: 'Editor', value: 'Editor'},
     ]);
     const types_permits = ref({
-        Creador: {
+        Creator: {
             'Permitido': [
                 'Agregar nueva información'
             ],
@@ -114,14 +114,14 @@ export default function useStoreProfile() {
     }
 
     return {
-        permissions, 
+        permissions,
         profiles,
         types_permits,
         show_profiles,
         show_icon,
         disabled,
-        model, 
-        clearModel, 
+        model,
+        clearModel,
         setValueModel,
         all,
         users,

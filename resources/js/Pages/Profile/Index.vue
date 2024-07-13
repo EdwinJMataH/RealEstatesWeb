@@ -3,13 +3,13 @@ import { Head } from '@inertiajs/vue3';
 import Tab from "@/Components/Tab.vue";
 import DashboardLayout from '@/Layouts/DashboardLayout.vue';
 import { ref } from "vue";
-import { EditPicture, EditPassword, EditProfile } from "./Partials/index.js";
+import { EditPicture, EditPassword, EditInformation } from "./Partials/index.js";
 
 const items = ref([
     {
         label: 'Generales',
         icon: 'pi pi-user',
-        component: EditProfile
+        component: EditInformation
     },
     {
         label: 'Contraseña',

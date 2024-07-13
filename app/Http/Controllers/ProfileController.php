@@ -2,26 +2,42 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
-use App\Core\Modules\Profile\UseCases\ProfileIndex;
+use Illuminate\Http\Request;
+use App\Http\Requests\User\PasswordRequest;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Http\Requests\User\ProfileUpdateRequest;
+use App\Core\Modules\Profile\UseCases\ProfileImage;
+use App\Core\Modules\Profile\UseCases\ProfileGeneral;
+use App\Core\Modules\Profile\UseCases\ProfileUpdatePassword;
+use App\Core\Modules\Profile\UseCases\ProfileUpdateInformation;
 
 class ProfileController extends Controller
 {
+    public function index() {
+        return Inertia::render('Profile/Index');
+    }
 
-    public function all() {
-        $response = ProfileIndex::index();
+    public function general(Request $request) {
+        $response = ProfileGeneral::update($request);
         return response()->json($response);
     }
 
-    public function index() {
-        return Inertia::render('Profile/Index');
+    public function password(PasswordRequest $request) {
+        $response = ProfileUpdatePassword::update($request);
+        return response()->json($response);
+    }
+
+    public function update(ProfileUpdateRequest $request) {
+        $response = ProfileUpdateInformation::update($request);
+        return response()->json($response);
+
+    }
+
+    public function image(Request $request) {
+        $response = ProfileImage::update($request);
+        return response()->json($response);
     }
 
 

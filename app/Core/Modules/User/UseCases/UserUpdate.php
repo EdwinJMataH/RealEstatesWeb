@@ -18,7 +18,7 @@ class UserUpdate {
         $uuid    = $request->uuid;
 
         try {
-            if (!$uuid) throw new ErrorException(['slug' => 'uuid-not-found']);
+            if (!$uuid) throw new ErrorException(['slug' => 'uuid_not_found']);
 
             $is_success = UserValidator::get((object)[
                 'profile'   => $profile,
@@ -40,11 +40,11 @@ class UserUpdate {
                     'id_permission' => $is_get->data->id_permission,
                     'email'         => $email,
                 ]);
-            if (!$is_updated) throw new ErrorException(['slug' => 'update-error']);
+            if (!$is_updated) throw new ErrorException(['slug' => 'update_error']);
 
             DB::commit();
 
-            return Reply::getResponse('update-success');
+            return Reply::getResponse('update_success');
 
         } catch (ErrorException $e) {
             DB::rollBack();

@@ -65,14 +65,14 @@ class RegisteredUserController extends Controller
 
             DB::commit();
 
-            return Reply::getResponse('register-success');
+            return Reply::getResponse('register_success');
 
         } catch (ErrorException $e) {
             DB::rollBack();
             return $e->getResponse();
         } catch (Throwable $e) {
             DB::rollBack();
-            throw new ErrorException(['message' => $e->getMessage()]);
+            throw new ErrorException(['error' => $e->getMessage()]);
         }
     }
 }

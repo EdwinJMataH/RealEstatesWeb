@@ -41,7 +41,7 @@ class PasswordResetLinkController extends Controller
 
             if ($status != 'passwords.sent') throw new Exception(__($status));
 
-            return Reply::getResponse('passwords-sent');
+            return Reply::getResponse('passwords_sent');
         } catch (ErrorException $e) {
             return $e->getResponse();
         } catch (Throwable $e) {

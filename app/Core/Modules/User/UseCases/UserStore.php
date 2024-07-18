@@ -43,11 +43,11 @@ class UserStore {
                 'password'      => Hash::make($password),
             ]);
 
-            if (!$is_created_user->id) throw new ErrorException(['slug' => 'register-error']);
+            if (!$is_created_user->id) throw new ErrorException(['slug' => 'register_error']);
 
             DB::commit();
 
-            return Reply::getResponse('register-success');
+            return Reply::getResponse('register_success');
 
         } catch (ErrorException $e) {
             DB::rollBack();

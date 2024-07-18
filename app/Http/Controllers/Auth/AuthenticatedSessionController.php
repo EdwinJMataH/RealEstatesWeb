@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Requests\Auth\LoginRequest;
+use Exception;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -34,12 +35,12 @@ class AuthenticatedSessionController extends Controller
 
             $request->session()->regenerate();
 
-            return Reply::getResponse('login-success');
+            return Reply::getResponse('login_success');
 
         } catch (ErrorException $e) {
             return $e->getResponse();
         } catch (Throwable $e) {
-            throw new ErrorException(['message' => $e->getMessage()]);
+            throw new ErrorException(['error' => $e->getMessage()]);
         }
     }
 
@@ -56,12 +57,12 @@ class AuthenticatedSessionController extends Controller
 
             $request->session()->regenerateToken();
 
-            return Reply::getResponse('logout-success');
+            return Reply::getResponse('logout_success');
 
         } catch (ErrorException $e) {
             return $e->getResponse();
         } catch (Throwable $e) {
-            throw new ErrorException(['message' => $e->getMessage()]);
+            throw new ErrorException(['error' => $e->getMessage()]);
         }
     }
 }

@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Core\Helpers;
-use App\Repositories\ErrorMessagesRepository;
 
 class Reply {
 
@@ -9,7 +8,7 @@ class Reply {
         return (object)[
             'status'  => true,
             'slug'    => $slug,
-            'message' => ErrorMessagesRepository::getMessage($slug),
+            'message' => __('messages.'.$slug),
             'data'    => (object)$data
         ];
     }

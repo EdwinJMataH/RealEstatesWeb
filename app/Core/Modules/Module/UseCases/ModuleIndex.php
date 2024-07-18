@@ -16,7 +16,7 @@ class ModuleIndex {
 
     public static function index($request)
     {
-        $slug = 'get-success';
+        $slug = 'get_success';
         try {
 
             $type_user = $request->user()->type_user;
@@ -31,7 +31,7 @@ class ModuleIndex {
 
                 $modules = $profile->modules()->pluck('modules.id_module');
             }
-            
+
             return Reply::getResponse($slug, $modules);
 
         } catch (ErrorException $e) {

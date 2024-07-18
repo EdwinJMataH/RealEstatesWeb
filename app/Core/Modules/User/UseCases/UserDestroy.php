@@ -13,7 +13,7 @@ class UserDestroy {
         $uuid = $request->uuid;
 
         try {
-            if (!$uuid) throw new ErrorException(['slug' => 'uuid-not-found']);
+            if (!$uuid) throw new ErrorException(['slug' => 'uuid_not_found']);
 
             $to_delete = User::where('uuid', $uuid);
 
@@ -22,13 +22,13 @@ class UserDestroy {
             DB::beginTransaction();
 
             $is_destroyed = $to_delete->delete();
-            if (!$is_destroyed) throw new ErrorException(['slug' => 'delete-error']);
+            if (!$is_destroyed) throw new ErrorException(['slug' => 'delete_error']);
 
             DB::table('sessions')->where('user_id', $user->id)->delete();
 
             DB::commit();
 
-            return Reply::getResponse('delete-success');
+            return Reply::getResponse('delete_success');
 
         } catch (ErrorException $e) {
             DB::rollBack();

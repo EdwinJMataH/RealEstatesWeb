@@ -4,9 +4,8 @@ namespace App\Http\Requests\User;
 
 use App\Models\User;
 use Illuminate\Validation\Rule;
-use App\Exceptions\ErrorException;
+use App\Core\Helpers\Validation;
 use Illuminate\Foundation\Http\FormRequest;
-use App\Repositories\ErrorMessagesRepository;
 use Illuminate\Contracts\Validation\Validator;
 
 class ProfileUpdateRequest extends FormRequest
@@ -28,13 +27,11 @@ class ProfileUpdateRequest extends FormRequest
     {
 
         return [
-            'name.required'     => ErrorMessagesRepository::getMessage('name_required'),
-            'name.string'       => ErrorMessagesRepository::getMessage('name_string'),
-            'name.max'          => ErrorMessagesRepository::getMessage('name_max'),
-            'email.required'    => ErrorMessagesRepository::getMessage('email_required'),
-            'email.email'       => ErrorMessagesRepository::getMessage('email_email'),
-            'email.max'         => ErrorMessagesRepository::getMessage('email_max'),
-            'email.unique'      => ErrorMessagesRepository::getMessage('email_unique'),
+            '*.required'   => __('validation.required'),
+            '*.max'        => __('validation.max'),
+            'email.email'  => __('validation.email'),
+            'name.string'  => __('validation.string'),
+            'email.unique' => __('validation.unique'),
         ];
     }
 
@@ -46,8 +43,6 @@ class ProfileUpdateRequest extends FormRequest
      */
     protected function failedValidation(Validator $validator)
     {
-        if ($validator->stopOnFirstFailure()->fails()) {
-            throw new ErrorException(['message' => $validator->errors()->first()]);
-        }
+        Validation::failedValidation($validator);
     }
 }

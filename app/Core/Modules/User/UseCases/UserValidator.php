@@ -20,9 +20,9 @@ class UserValidator {
 
             $is_empty = Validation::isEmpty($not_empty);
 
-            if (!$is_empty) throw new ErrorException(['slug' => 'form-empty']);
+            if (!$is_empty) throw new ErrorException(['slug' => 'form_empty']);
 
-            return Reply::getResponse('get-success');
+            return Reply::getResponse('get_success');
 
         } catch (ErrorException $e) {
             return $e->getResponse();

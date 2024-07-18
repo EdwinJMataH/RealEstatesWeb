@@ -18,7 +18,7 @@ class PermissionGet {
             })->where('type', $type)->value('id_permission');
 
 
-            return Reply::getResponse('get-success', [
+            return Reply::getResponse('get_success', [
                 'id_permission' => $id_permission
             ]);
 

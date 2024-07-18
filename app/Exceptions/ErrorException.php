@@ -44,7 +44,7 @@ class ErrorException extends Exception {
     public function setMessage() {
 
         if (is_null($this->message)) {
-            $this->message = $message ?? ErrorMessagesRepository::getMessage($this->slug);
+            $this->message = $message ?? __('messages.'.$this->slug);
         }
     }
 

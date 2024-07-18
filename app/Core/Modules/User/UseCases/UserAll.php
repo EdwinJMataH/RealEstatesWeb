@@ -9,7 +9,7 @@ class UserAll {
 
     public static function index()
     {
-        $slug = 'get-success';
+        $slug = 'get_success';
         try {
 
             $users = User::select('name', 'email', 'uuid', 'id_permission')

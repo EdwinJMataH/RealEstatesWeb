@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests\User;
 
-use App\Exceptions\ErrorException;
+use App\Core\Helpers\Validation;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Foundation\Http\FormRequest;
-use App\Repositories\ErrorMessagesRepository;
 use Illuminate\Contracts\Validation\Validator;
 
 class PasswordRequest extends FormRequest
@@ -26,22 +25,26 @@ class PasswordRequest extends FormRequest
     public function rules() : array
     {
         return [
-            'current_password' => ['required', 'current_password', 'min:8', 'regex:/[a-z]/', 'regex:/[A-Z]/', 'regex:/[0-9]/'],
-            'password'         => ['required', Password::defaults(), 'confirmed', 'min:8', 'regex:/[a-z]/', 'regex:/[A-Z]/', 'regex:/[0-9]/'],
+            'current_password' => ['required', 'current_password', Password::min(8)->numbers()->letters()->mixedCase()->symbols()],
+            'password'         => ['required', 'confirmed', Password::min(8)->numbers()->letters()->mixedCase()->symbols()],
         ];
     }
 
     public function messages() : array
     {
         return [
-            'current_password.required'         => ErrorMessagesRepository::getMessage('current_password_required'),
-            'current_password.current_password' => ErrorMessagesRepository::getMessage('current_password_incorrect'),
-            'current_password.min'              => ErrorMessagesRepository::getMessage('current_password_min'),
-            'current_password.regex'            => ErrorMessagesRepository::getMessage('current_password_regex'),
-            'password.min'                      => ErrorMessagesRepository::getMessage('password_min'),
-            'password.regex'                    => ErrorMessagesRepository::getMessage('password_regex'),
-            'password.required'                 => ErrorMessagesRepository::getMessage('password_required'),
-            'password.confirmed'                => ErrorMessagesRepository::getMessage('password_confirmed')
+            '*.required'                        => __('validation.required'),
+            '*.min'                             => __('validation.min'),
+            'current_password.current_password' => __('validation.current_password'),
+            'password.confirmed'                => __('validation.confirmed'),
+        ];
+    }
+
+    public function attributes() : array
+    {
+        return [
+            'current_password' => __('validation.attributes.current_password'),
+            'password'         => __('validation.attributes.password'),
         ];
     }
 
@@ -53,9 +56,6 @@ class PasswordRequest extends FormRequest
      */
     protected function failedValidation(Validator $validator)
     {
-
-        if ($validator->stopOnFirstFailure()->fails()) {
-            throw new ErrorException(['message' => $validator->errors()->first()]);
-        }
+        Validation::failedValidation($validator);
     }
 }

@@ -35,7 +35,7 @@ const validateEmail = (email) => {
     // return regex.test(String(email).toLowerCase());
     return {
         status: regex.test(String(email).toLowerCase()),
-        alert: { severity: 'error', detail: messages['error-email'] },
+        alert: { severity: 'error', detail: messages['error_email'] },
     }
 }
 
@@ -100,20 +100,20 @@ function getModulesMenu(module){
 
 
 const messages = {
-    'error-email'     : 'El correo electrónico proporcionado, no corresponde a uno válido.',
-    'error-phone'     : 'El número de celular proporcionado, no corresponde a uno válido.',
-    'error-passwords' : 'Las contraseñas proporcionadas, no coinciden.',
-    'form-empty'      : 'Se han encontrado campos vacíos en el formulario. Por favor, llenarlos.',
-    'uuid-not-found'  : 'Ha ocurrido un problema al consultar la información solicitada.',
-    'get-success'     : 'Se ha obtenido la información correctamente.',
-    'update-success'  : 'Se ha realizado la actualización correctamente.',
-    'register-success': 'Se ha realizado el registro correctamente.',
-    'delete-success'  : 'Se ha realizado el borrado correctamente.',
-    'get-error'       : 'Ha ocurrido un problema al obtener la información solicitada.',
-    'update-error'    : 'Ha ocurrido un problema con la actualización.',
-    'register-error'  : 'Ha ocurrido un problema con el registro.',
-    'delete-error'    : 'Ha ocurrido un problema con el borrado.',
-    'image-error'     : 'Ha ocurrido un problema con el regstro de la imagen.',
+    'error_email'     : 'El correo electrónico proporcionado, no corresponde a uno válido.',
+    'error_phone'     : 'El número de celular proporcionado, no corresponde a uno válido.',
+    'error_passwords' : 'Las contraseñas proporcionadas, no coinciden.',
+    'form_empty'      : 'Se han encontrado campos vacíos en el formulario. Por favor, llenarlos.',
+    'uuid_not_found'  : 'Ha ocurrido un problema al consultar la información solicitada.',
+    'get_success'     : 'Se ha obtenido la información correctamente.',
+    'update_success'  : 'Se ha realizado la actualización correctamente.',
+    'register_success': 'Se ha realizado el registro correctamente.',
+    'delete_success'  : 'Se ha realizado el borrado correctamente.',
+    'get_error'       : 'Ha ocurrido un problema al obtener la información solicitada.',
+    'update_error'    : 'Ha ocurrido un problema con la actualización.',
+    'register_error'  : 'Ha ocurrido un problema con el registro.',
+    'delete_error'    : 'Ha ocurrido un problema con el borrado.',
+    'image_error'     : 'Ha ocurrido un problema con el regstro de la imagen.',
     'error'           : 'El servidor encontró un error inesperado. Por favor, inténtalo de nuevo más tarde.',
 }
 
@@ -139,7 +139,7 @@ const validateFormIsEmpty = (object) => {
 
     return {
         status: !Boolean(Object.keys(properties).length),
-        alert: { severity: 'warn', detail: messages['form-empty']},
+        alert: { severity: 'warn', detail: messages['form_empty']},
         properties: properties
     }
 };
@@ -147,7 +147,7 @@ const validateFormIsEmpty = (object) => {
 const validateSamePasword = (object) => {
     return {
         status: object.password == object.password_confirmation,
-        alert: { severity: 'warn', detail: messages['error-passwords']},
+        alert: { severity: 'warn', detail: messages['error_passwords']},
     }
 };
 

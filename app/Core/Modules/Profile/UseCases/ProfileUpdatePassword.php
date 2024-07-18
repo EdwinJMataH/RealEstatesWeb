@@ -16,7 +16,7 @@ class ProfileUpdatePassword {
 
         try {
             $password  = $request->password;
-            
+
             $request->validated();
 
             DB::beginTransaction();
@@ -27,7 +27,7 @@ class ProfileUpdatePassword {
 
             DB::commit();
 
-            return Reply::getResponse('update-success');
+            return Reply::getResponse('update_success');
 
         } catch (ErrorException $e) {
             DB::rollBack();

@@ -28,7 +28,7 @@ class ProfileUpdateInformation {
 
             DB::commit();
 
-            return Reply::getResponse('update-success');
+            return Reply::getResponse('update_success');
 
         } catch (ErrorException $e) {
             DB::rollBack();

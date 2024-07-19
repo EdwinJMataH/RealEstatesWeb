@@ -4,6 +4,7 @@ import { FilterMatchMode } from "primevue/api";
 import ConfirmDialog from 'primevue/confirmdialog';
 import ConfirmPopup from 'primevue/confirmpopup';
 import { useConfirm } from "primevue/useconfirm";
+import { translate } from "../helpers.js"
 const confirm = useConfirm();
 // import { useToast } from 'primevue/usetoast';
 import { ProductService } from "@/Service/ProductService";
@@ -308,7 +309,7 @@ const clickAction = (event, val) => {
                     </template>
 
                     <template v-else>
-                        {{ slotProps.data[column.field] }}
+                        {{ translate(slotProps.data[column.field]) }}
                     </template>
                 </template>
             </Column>

@@ -1,6 +1,15 @@
 import { useStoreSpinner } from "@/Components/Spinner/Store/useStoreSpinner.js";
 const storeSpinner = useStoreSpinner();
 const { visible } = storeToRefs(storeSpinner);
+import es from './locales/es.json'
+
+function translate(key) {
+    if (!key) return '-';
+
+    let word = es[key] || key;
+    return word.charAt(0).toUpperCase() + word.slice(1);
+}
+
 
 function spinner(show = true){
     if (show) {
@@ -163,6 +172,7 @@ const validatePassword = (password) =>  {
 
 
 export {
+    translate,
     fetchAPI,
     modalDimensions,
     validateEmail,

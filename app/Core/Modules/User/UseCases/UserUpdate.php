@@ -20,11 +20,12 @@ class UserUpdate {
         try {
             if (!$uuid) throw new ErrorException(['slug' => 'uuid_not_found']);
 
-            $is_success = UserValidator::get((object)[
-                'profile'   => $profile,
-                'type'      => $type,
-                'not_empty' => [$email, $profile],
-            ]);
+            $is_success = UserValidator::get($request);
+            // $is_success = UserValidator::get((object)[
+            //     'profile'   => $profile,
+            //     'type'      => $type,
+            //     'not_empty' => [$email, $profile],
+            // ]);
             if (!$is_success->status) throw new ErrorException(['slug' => $is_success->slug]);
 
             $is_get =  PermissionGet::search((object)[

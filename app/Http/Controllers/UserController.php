@@ -5,6 +5,7 @@ use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Core\Modules\User\UseCases\UserAll;
+use App\Http\Requests\UserValidatorRequest;
 use App\Core\Modules\User\UseCases\UserStore;
 use App\Core\Modules\User\UseCases\UserUpdate;
 use App\Core\Modules\User\UseCases\UserDestroy;
@@ -20,12 +21,12 @@ class UserController extends Controller {
         return Inertia::render('User/Index');
     }
 
-    public function store(Request $request) {
+    public function store(UserValidatorRequest $request) {
         $response = UserStore::store($request);
         return response()->json($response);
     }
 
-    public function update(Request $request, $uuid) {
+    public function update(UserValidatorRequest $request, $uuid) {
         $request->uuid = $uuid;
         $response = UserUpdate::store($request);
         return response()->json($response);

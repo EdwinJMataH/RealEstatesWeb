@@ -1,26 +1,22 @@
 <?php
 namespace App\Core\Modules\User\UseCases;
 use Throwable;
+use App\Models\User;
 use App\Core\Helpers\Reply;
-use App\Core\Helpers\Validation;
 use App\Exceptions\ErrorException;
-
 class UserValidator {
 
     public static function get($request)
     {
         $profile   = $request->profile;
         $type      = $request->type;
-        $not_empty = $request->not_empty ?? [];
 
         try {
-            if ($profile == 'Collaborator') $not_empty[] = $type;
 
-            if ($profile == 'Administrator') $type = 'All';
+            if ($profile == 'Collaborator' && !in_array($type, ['Creator','Editor']))
+                throw new ErrorException(['slug' => 'permission_error']);
 
-            $is_empty = Validation::isEmpty($not_empty);
-
-            if (!$is_empty) throw new ErrorException(['slug' => 'form_empty']);
+            if ($profile == 'Administrator') $request->type = 'All';
 
             return Reply::getResponse('get_success');
 

@@ -11,20 +11,21 @@ const appName = computed(() => page.props.appName);
 <template>
       <footer class="py-4 border-b-slate-200 border-t">
         <div class="max-w-7xl mx-auto px-4 lg:px-8">
-            <div class="flex justify-between items-center">
+            <div class="flex justify-between items-center ">
                 <span class="text-center">
                     &copy;
                     {{ new Date().getFullYear() }}
-                    By
+                    Made With
                     <i class="pi pi-heart-fill" style="color: red"></i>
+                    By
                     <a
                         href="https://github.com/EdwinJMataH?tab=repositories"
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="ms-1"
+                        class="text-primary-500"
                     >Edwin Mata</a>
                 </span>
-                <span class="text-center">
+                <span class="text-center text-primary-500">
                     <Link :href="route('dashboard')">
                         {{ appName }}
                     </Link>

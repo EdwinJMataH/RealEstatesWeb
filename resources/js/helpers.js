@@ -97,7 +97,7 @@ function getModulesMenu(module){
             orderBy: 2
         },
         dashboard: {
-            label: 'Sign Out',
+            label: 'Cerrar sesión',
             icon: 'pi pi-sign-out',
             orderBy: 3
         }

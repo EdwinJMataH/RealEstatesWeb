@@ -23,6 +23,7 @@
         "@vitejs/plugin-vue": "^4.2.3",
         "pinia": "^2.1.7",
         "primeicons": "^7.0.0",
-        "primevue": "^3.51.0"
+        "primevue": "^3.53",
+        "tailwindcss-primeui": "^0.3.4"
     }
 }

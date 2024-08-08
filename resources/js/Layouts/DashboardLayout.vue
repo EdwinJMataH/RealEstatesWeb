@@ -8,6 +8,9 @@ import useStoreModule from "@/Composables/useStoreModule.js";
 import Spinner from "@/Components/Spinner/Spinner.vue";
 import { spinner } from "@/helpers.js";
 import { router } from '@inertiajs/vue3'
+import { useStoreProfile } from "@/Pages/Profile/Store/useStoreProfile.JS";
+const storeProfile  = useStoreProfile();
+const { model } = storeToRefs(storeProfile);
 const { logout } = useStoreAuth();
 const { index, itemsMenu } = useStoreModule();
 spinner();
@@ -68,7 +71,6 @@ const items = ref([
         badge: 3
     }
 ]);
-
 const menu   = ref(null);
 const alerts = ref([]);
 
@@ -89,9 +91,15 @@ const logoutEvnt = async () => {
 }
 
 onMounted(() => {
+    getData();
     index();
     spinner(false);
 });
+
+const getData = async () => {
+    await storeProfile.show();
+};
+
 </script>
 
 <template>
@@ -119,8 +127,17 @@ onMounted(() => {
             </template>
             <template #end>
                 <div class="flex items-center gap-2">
-                    <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png" shape="circle" @click="toggle" class="cursor-pointer"/>
+                    <Avatar :image="model.image" shape="circle" @click="toggle" class="cursor-pointer"/>
                     <Menu :model="itemsMenu" ref="menu" popup>
+                        <template #start>
+                            <div v-ripple class="relative overflow-hidden w-full p-link flex items-center p-2 pl-3 text-surface-700 dark:text-surface-0/80 hover:bg-surface-200 dark:hover:bg-surface-600 rounded-none">
+                                <Avatar :image="model.image" class="mr-2" shape="circle" />
+                                <span class="inline-flex flex-col justify-start">
+                                    <span class="font-bold">{{ model.name.split(' ').slice(0, 2).join(' ') }}</span>
+                                    <span class="text-sm">{{ model.profile }}</span>
+                                </span>
+                            </div>
+                        </template>
                         <template #item="{ item, props }">
                             <Link v-if="item.route" v-ripple :href="route(item.route)" :target="item.target" v-bind="props.action">
                                 <span :class="item.icon" />

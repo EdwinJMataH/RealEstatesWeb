@@ -22,6 +22,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'id_file',
         'id_permission',
         'password',
         'uuid',
@@ -50,8 +51,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-
-
     /**
      * permission
      *
@@ -60,5 +59,10 @@ class User extends Authenticatable
     public function permission(): BelongsTo
     {
         return $this->belongsTo(Permission::class, 'id_permission', 'id_permission');
+    }
+
+    public function file(): BelongsTo
+    {
+        return $this->belongsTo(File::class, 'id_file', 'id_file');
     }
 }

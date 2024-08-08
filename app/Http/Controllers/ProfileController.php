@@ -8,20 +8,15 @@ use Illuminate\Http\Request;
 use App\Http\Requests\User\PasswordRequest;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Http\Requests\User\ProfileUpdateRequest;
-use App\Core\Modules\Profile\UseCases\ProfileImage;
-use App\Core\Modules\Profile\UseCases\ProfileGeneral;
+use App\Core\Modules\Profile\UseCases\ProfileUpdateImage;
 use App\Core\Modules\Profile\UseCases\ProfileUpdatePassword;
 use App\Core\Modules\Profile\UseCases\ProfileUpdateInformation;
+use App\Core\Modules\Profile\UseCases\ProfileShowInformation;
 
 class ProfileController extends Controller
 {
     public function index() {
         return Inertia::render('Profile/Index');
-    }
-
-    public function general(Request $request) {
-        $response = ProfileGeneral::update($request);
-        return response()->json($response);
     }
 
     public function password(PasswordRequest $request) {
@@ -36,7 +31,12 @@ class ProfileController extends Controller
     }
 
     public function image(Request $request) {
-        $response = ProfileImage::update($request);
+        $response = ProfileUpdateImage::update($request);
+        return response()->json($response);
+    }
+
+    public function show(Request $request) {
+        $response = ProfileShowInformation::index($request);
         return response()->json($response);
     }
 

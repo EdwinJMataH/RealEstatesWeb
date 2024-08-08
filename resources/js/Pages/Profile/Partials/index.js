@@ -1,3 +1,3 @@
-export { default as EditPicture } from './EditPicture.vue';
-export { default as EditPassword } from './EditPassword.vue';
-export { default as EditInformation } from './EditInformation.vue';
+export { default as ProfilePicture } from './ProfilePicture.vue';
+export { default as ProfilePassword } from './ProfilePassword.vue';
+export { default as Profileformation } from './Profileformation.vue';

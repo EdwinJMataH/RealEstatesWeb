@@ -3,15 +3,16 @@ import Form from '@/Components/Form.vue';
 import Input from "@/Components/Input.vue";
 import Alert from "@/Components/Alert.vue";
 import { useStoreProfileInformation } from "../Store/useStoreProfileInformation.js";
+import { useStoreProfile } from "@/Pages/Profile/Store/useStoreProfile.JS";
 import { validateEmail, validateFormIsEmpty } from "@/helpers.js";
-
-const storeProfile = useStoreProfileInformation();
-const { model, invalid } = storeToRefs(storeProfile);
+const storeInformation = useStoreProfileInformation();
+const storeProfile     = useStoreProfile();
+const { model, invalid } = storeToRefs(storeInformation);
 const alerts  = ref([]);
 
 const submit = async (val) => {
     alerts.value = [];
-    storeProfile.clearInvalid();
+    storeInformation.clearInvalid();
     if (!val) return;
 
     let modelTemp = { ...model.value };
@@ -20,7 +21,7 @@ const submit = async (val) => {
 
     if (!isEmpty.status) {
         alerts.value.push(isEmpty.alert);
-        storeProfile.setValueInvalid({...isEmpty.properties})
+        storeInformation.setValueInvalid({...isEmpty.properties})
         return;
     }
 
@@ -28,16 +29,17 @@ const submit = async (val) => {
 
     if (!isEmail.status) {
         alerts.value.push(isEmail.alert);
-        storeProfile.setValueInvalid({ email:true })
+        storeInformation.setValueInvalid({ email:true })
         return;
     }
 
-    await storeProfile.update((response => {
+    await storeInformation.update( async(response) => {
         const { severity, detail, status } = response;
         alerts.value = [];
         alerts.value.push({ severity: severity, detail: detail })
 
-    }));
+        if (status) await storeProfile.show();
+    });
 };
 </script>
 
@@ -45,7 +47,7 @@ const submit = async (val) => {
 <template>
     <Alert :alerts="alerts" />
     <Form
-        :title="'Datos Generales'"
+        :title="'Actualizar datos generales'"
         :has_columns="true"
         :description="'Actualice la información del perfil y la dirección de correo electrónico de su cuenta.'"
         @submit="submit">

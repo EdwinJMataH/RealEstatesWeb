@@ -1,49 +1,24 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { fetchAPI } from "@/helpers.js";
+import { useStoreProfileInformation } from "@/Pages/Profile/Store/useStoreProfileInformation.js";
+import { useStoreProfileImage } from "@/Pages/Profile/Store/useStoreProfileImage.js";
+const storeProfileInformation = useStoreProfileInformation();
+const storeProfileImage       = useStoreProfileImage();
 
 export const useStoreProfile = defineStore('useStoreProfile', () => {
 
-
+    // V A R I A B L E S
     const init_model = () => {
         return {
-            email: null,
-            name: null,
-            current_password: null,
-            password: null,
-            password_confirmation: null,
+            profile: "",
+            email: "",
+            name: "",
+            image: "",
         };
     };
 
-    const init_model_password = () => {
-        return {
-            current_password: null,
-            password: null,
-            password_confirmation: null,
-        };
-    };
-
-    const is_invalid = () => {
-        return {
-            email: false,
-            name: false,
-            current_password: false,
-            password: false,
-            password_confirmation: false,
-        };
-    };
-
-    let modelPassword   = ref(init_model_password());
-    let model   = ref(init_model());
-    let invalid = ref(is_invalid());
-
-    const clearModelPassword = () => {
-        modelPassword.value = init_model_password();
-    };
-
-    const setValueModelPassword = (value) => {
-        modelPassword.value = { ...value };
-    };
+    let model = ref(init_model());
 
     const clearModel = () => {
         model.value = init_model();
@@ -53,32 +28,28 @@ export const useStoreProfile = defineStore('useStoreProfile', () => {
         model.value = { ...value };
     };
 
-    const clearInvalid = () => {
-        invalid.value = is_invalid();
-    };
+    // F U N C T I O N S
+    const show = async (functionCallback = ()=>{}) => {
 
-    const setValueInvalid = (value) => {
-        invalid.value = { ...value };
-    };
+        await fetchAPI({ method: 'get', to: 'profile.show' }, (response) => {
+            clearModel();
+            storeProfileInformation.clearModel();
+            storeProfileImage.clearModel();
 
-    const password = async (functionCallback = ()=>{}) => {
+            const { status, data } = response;
 
-        await fetchAPI({ method: 'post', to: 'profile.password', send: {...modelPassword.value } }, (response) => {
-            functionCallback(response);
+            if (status) {
+
+                setValueModel(data);
+                storeProfileInformation.setValueModel({ email: data.email, name: data.name });
+                storeProfileImage.setValueModel({ image: data.image });
+            }
         })
     }
 
-
     return {
-        invalid,
-        clearInvalid,
-        setValueInvalid,
         model,
         clearModel,
-        setValueModel,
-        modelPassword,
-        clearModelPassword,
-        setValueModelPassword,
-        password
+        show
     };
 });

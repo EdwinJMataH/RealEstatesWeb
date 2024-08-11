@@ -16,9 +16,11 @@ class ProfileShowInformation {
             $data = [
                 'email'   => $user->email,
                 'name'    => $user->name,
-                'image'   => File::find($user->id_file)->url_temporary,
+                'image'   => File::find($user->id_file)->url_temporary ?? null,
                 'profile' => Permission::find($user->id_permission)->profile->name
             ];
+
+            if (is_null($data['image'])) unset($data['image']);
 
             return Reply::getResponse('get_success', $data);
 
